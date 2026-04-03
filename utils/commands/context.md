@@ -13,11 +13,21 @@ allowed-tools:
 
 # Gather Task Context
 
-Get up to speed with the current task by reviewing git state, recent commits, modified files, and any external references.
+Get up to speed with a task — often used when switching context to a new piece of work.
 
 ## User Guidance
 
 $1
+
+## Understand the intent
+
+Before gathering context, identify what the user gave you:
+
+- **A ticket or issue reference** (e.g. `#123`, `PROJ-123`, a URL) — the user is about to
+  plan an implementation. Fetch the ticket details and orient your summary toward next steps.
+- **A branch name** (e.g. `feature/auth-refactor` or `1234-auth-refactor`) — the user wants to implement on that
+  branch. Check if it's already the active branch; if not, note that.
+- **Something else or nothing** — fall back to general context gathering from git state.
 
 ## Context Gathering (run in parallel)
 
@@ -59,6 +69,11 @@ Execute these commands simultaneously:
    - Multiple unrelated changes are present
    - You need to understand the broader goal
 
+## Context window hygiene
+
+After gathering context, check how much of the context window is in use. If it's
+substantial, suggest the user compact the conversation before starting implementation.
+
 ## Output Format
 
 Provide a summary using this structure:
@@ -87,6 +102,11 @@ Provide a summary using this structure:
 - [What's done]
 - [What's in progress]
 - [What remains to be done, if discernible]
+
+## Suggested Next Steps
+
+[What the user should do next — e.g. "Plan the implementation", "Continue work on X",
+"Branch is ready for implementation"]
 
 ## Questions/Clarifications
 
