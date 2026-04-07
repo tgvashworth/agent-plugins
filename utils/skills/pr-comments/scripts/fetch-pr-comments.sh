@@ -14,9 +14,13 @@ PR_ARG="${1:-}"
 # --- Determine repo owner and name (needed before PR detection) ---
 resolve_repo() {
     # Try gh repo view first.
-    local gh_err
-    if gh_err=$(gh repo view --json nameWithOwner -q '.nameWithOwner' 2>&1); then
-        echo "$gh_err"
+    # Stderr is sent to a temp file (not mixed into stdout via 2>&1) so that
+    # debug/verbose output from gh (e.g. GH_DEBUG) doesn't pollute the result.
+    local gh_out gh_err_file
+    gh_err_file=$(mktemp)
+    if gh_out=$(gh repo view --json nameWithOwner -q '.nameWithOwner' 2>"$gh_err_file"); then
+        rm -f "$gh_err_file"
+        echo "$gh_out"
         return 0
     fi
 
@@ -25,9 +29,11 @@ resolve_repo() {
     local remote_url
     remote_url=$(git remote get-url origin 2>/dev/null) || {
         echo "ERROR: Could not determine repository (gh repo view failed and no git remote found)." >&2
-        echo "gh said: $gh_err" >&2
+        cat "$gh_err_file" >&2
+        rm -f "$gh_err_file"
         return 1
     }
+    rm -f "$gh_err_file"
 
     # Strip .git suffix before matching so we can use simple greedy patterns
     # (ERE doesn't support lazy quantifiers like +?).
