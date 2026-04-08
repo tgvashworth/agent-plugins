@@ -1,15 +1,10 @@
 {
   "name": "u",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A grab-bag of useful commands for various tasks",
   "author": {
     "name": "Tom Ashworth",
     "url": "https://tgvashworth.com"
   },
-  "keywords": [
-    "useful",
-    "commands",
-    "tools",
-    "utilities"
-  ]
+  "keywords": ["useful", "commands", "tools", "utilities"]
 }

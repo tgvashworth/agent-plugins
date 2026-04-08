@@ -9,7 +9,6 @@
       "name": "playbook-dev",
       "source": "./playbook-dev",
       "description": "Create structured, multi-stage analysis playbooks for LLM-driven workflows",
-      "version": "0.1.0",
       "author": {
         "name": "Tom Ashworth"
       }
@@ -18,7 +17,6 @@
       "name": "u",
       "source": "./utils",
       "description": "A grab-bag of useful commands for various tasks",
-      "version": "0.1.0",
       "author": {
         "name": "Tom Ashworth"
       }
