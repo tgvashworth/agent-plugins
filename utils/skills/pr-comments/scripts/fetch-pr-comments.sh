@@ -123,6 +123,7 @@ query($owner: String!, $repo: String!, $number: Int!) {
             reviewThreads(first: 100) {
                 totalCount
                 nodes {
+                    id
                     isResolved
                     isOutdated
                     path
@@ -130,6 +131,8 @@ query($owner: String!, $repo: String!, $number: Int!) {
                     startLine
                     comments(first: 50) {
                         nodes {
+                            id
+                            databaseId
                             author { login }
                             body
                             createdAt

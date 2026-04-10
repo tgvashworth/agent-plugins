@@ -68,4 +68,5 @@ After implementation:
 
 1. Summarise what was changed and why
 2. List any feedback items you deliberately did not implement and the reason
-3. Suggest replying to reviewers if appropriate (but do not post replies without asking)
+3. Ask if the user wants to respond to reviewers and resolve threads — if yes,
+   hand off to `/pr-respond`
