@@ -5,7 +5,6 @@ description: |
   resolve addressed threads, and post follow-up comments. Use after
   implementing changes from PR feedback or when closing the loop with reviewers.
 argument-hint: "[PR number or URL]"
-disable-model-invocation: true
 ---
 
 # PR respond
