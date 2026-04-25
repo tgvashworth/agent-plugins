@@ -22,7 +22,7 @@ Create structured, multi-stage analysis playbooks for LLM-driven workflows. Use 
 
 ### utils (installed as `u`)
 
-A grab-bag of useful commands and skills:
+A grab-bag of useful commands:
 
 - `/context` — switch context and get up to speed with a task, ticket, or branch
 - `/commit` — create a commit with an auto-generated message
@@ -30,8 +30,9 @@ A grab-bag of useful commands and skills:
 - `/commit-push-draft` — commit, push, and open a draft PR
 - `/bg` — spin off a task to a background agent
 - `/remember` — persist a convention or instruction to the project's shared CLAUDE.md/AGENTS.md
-- `pr-feedback` — triage and act on PR review feedback (auto-activated)
-- `pr-comments` — fetch PR comments, reviews, and threads (used by pr-feedback)
+- `/pr-feedback` — triage and act on PR review feedback
+- `/pr-comments` — fetch PR comments, reviews, and threads
+- `/tourguide` — walk through changes or a plan one group at a time
 
 ## Author
 

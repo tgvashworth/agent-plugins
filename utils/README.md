@@ -69,15 +69,36 @@ Append a convention, fact, or instruction to the project's shared `AGENTS.md` or
 /remember API handlers must return structured errors using pkg/apierror
 ```
 
-## Skills (auto-activated)
-
-### `pr-feedback`
+### `/pr-feedback [PR number or URL]`
 
 Triage and act on PR review feedback. Fetches all comments, categorises each as implement/acknowledge/decline, plans changes, and implements approved fixes.
 
-### `pr-comments`
+**Example:**
+```bash
+/pr-feedback
+/pr-feedback 42
+```
 
-Fetch all PR comments, reviews, and review threads via a single GraphQL call. Used by `pr-feedback` and available for direct use.
+### `/pr-comments [PR number or URL]`
+
+Fetch all PR comments, reviews, and review threads via a single GraphQL call.
+
+**Example:**
+```bash
+/pr-comments
+/pr-comments https://github.com/org/repo/pull/42
+```
+
+### `/tourguide [commit range, branch, PR, or plan]`
+
+Walk through code changes or a plan in a logical, grouped sequence — one group at a time, pausing after each for questions or feedback. Instead of dumping a raw diff, organises related pieces together and presents them incrementally.
+
+**Example:**
+```bash
+/tourguide
+/tourguide feature/auth-refactor
+/tourguide 42
+```
 
 ## Features
 
