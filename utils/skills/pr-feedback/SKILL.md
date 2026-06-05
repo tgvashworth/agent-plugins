@@ -5,7 +5,6 @@ description: |
   (implement / acknowledge / decline), plan changes, and implement approved
   fixes. Use when you need to act on pull request review feedback.
 argument-hint: "[PR number or URL]"
-disable-model-invocation: true
 ---
 
 # PR Feedback
