@@ -13,6 +13,7 @@ description: |
   through the plan", "talk me through the approach", or "explain what you're
   going to do".
 argument-hint: "[commit range, branch, PR, plan, or omit for uncommitted changes]"
+model: fable
 ---
 
 # Tourguide
