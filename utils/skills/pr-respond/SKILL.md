@@ -19,7 +19,11 @@ Run the pr-comments fetch script to get all PR comments, reviews, and review thr
 
 ## Phase 2: Identify actionable threads
 
-Focus on **unresolved** threads. For each one, check the current code to determine
+Focus on **unresolved** threads. First, note which threads come from **bot reviewers**
+(see below) — replies to bots should be terse and factual, with none of the social
+niceties you'd extend to a human.
+
+For each thread, check the current code to determine
 whether the feedback has been addressed, then categorise:
 
 | Category | When | Action |
@@ -67,11 +71,31 @@ gh api graphql -f query='
 gh pr comment {pr_number} --body "..."
 ```
 
+## Bot reviewers
+
+Many reviews come from automated bots, not people. Common ones: **GitHub Copilot**
+(`copilot-pull-request-reviewer`, `Copilot`), **Cursor Bugbot** (`cursor`, `bugbot`),
+**CodeRabbit** (`coderabbitai`), **Greptile**, **Sourcery**, **Codecov**, **Graphite**,
+**Ellipsis**, **Qodo/PR-Agent**, and similar. Bot accounts usually have a `[bot]` suffix
+on their login, a `type: Bot` user type, or an obviously automated name.
+
+When replying to a bot, **skip the politeness** — bots don't read tone and no one's
+feelings are at stake. Drop the pleasantries entirely:
+
+- No "Thanks for catching this", "Good point", "Great suggestion", etc.
+- Just state the outcome: "Fixed in abc1234", "Won't fix — intentional, X depends on this
+  ordering", "False positive, this path is unreachable because Y".
+- Be especially willing to push back. Bots produce false positives and low-value nits;
+  decline them plainly without hedging or softening.
+- Still keep replies accurate and specific — terse, not dismissive of real issues.
+
+For human reviewers, keep the normal courteous tone described in the guidelines below.
+
 ## Guidelines
 
 - **Never post without user approval.** Always present the plan first.
 - **Keep replies concise.** "Fixed in abc1234" or "Good catch — updated to use X instead" is enough.
-- **Don't be defensive.** Thank reviewers for catching things.
+- **Don't be defensive.** Thank human reviewers for catching things. (For bots, skip the thanks — see above.)
 - **Only resolve addressed threads.** Don't resolve threads where the feedback wasn't acted on
   unless the user explicitly says to.
 - **Batch related replies.** If multiple threads are about the same change, one reply
