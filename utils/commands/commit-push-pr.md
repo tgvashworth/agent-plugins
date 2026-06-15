@@ -54,3 +54,8 @@ $1
    - Return the PR URL
 
 Handle each step carefully and verify success before proceeding to the next.
+
+## After the PR is open
+
+Immediately start the `review-agent` skill on the new PR to kick off a
+background review and watch for incoming feedback (CI, bots, reviewers).
