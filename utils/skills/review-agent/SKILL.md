@@ -31,7 +31,22 @@ gh pr view --json number,title,url -q '"#\(.number) — \(.title)"'
 
 If there's no PR for the branch, tell the user and stop.
 
-## Phase 1: Kick off our own review
+## Phase 1: Check existing feedback
+
+Before watching for *new* activity, immediately surface what's **already** on
+the PR so you start from a complete picture. Run the `pr-comments` fetch script:
+
+```
+${CLAUDE_PLUGIN_ROOT}/skills/pr-comments/scripts/fetch-pr-comments.sh <N> 2>&1
+```
+
+Triage anything actionable in the existing feedback right away using the same
+rules as Phase 4 (auto-fix trivially-safe bot/`-SELF` items, triage the rest,
+report `-HUMAN` items and ask). The watcher started in Phase 3 seeds on the
+current state and only emits feedback that arrives *after* it starts — so this
+phase is the one chance to catch what's already there.
+
+## Phase 2: Kick off our own review
 
 Launch a **background** `Agent` that runs the built-in `/review` skill against
 the PR and reports its findings back. Its final message returns to this thread —
@@ -52,11 +67,11 @@ Agent(
 Tell the user the review is running in the background and that you'll fold its
 findings in alongside incoming feedback when it returns.
 
-## Phase 2: Start watching
+## Phase 3: Start watching
 
 Start a **persistent** `Monitor` on the PR. The script seeds with the PR's
-current state, then streams one line per *new* CI failure or comment, and exits
-on merge/close.
+current state (which you already reviewed in Phase 1), then streams one line per
+*new* CI failure or comment, and exits on merge/close.
 
 ```
 Monitor(
@@ -70,7 +85,7 @@ Each event line ends with a comment/review URL. Bodies are truncated to 300
 chars — when you need the full text, call
 `${CLAUDE_PLUGIN_ROOT}/skills/review-agent/scripts/read-comment.sh <url>`.
 
-## Phase 3: Handle events as they land
+## Phase 4: Handle events as they land
 
 Event lines carry an authorship label. The **base label means a bot** on the
 watchlist; `-SELF` (the PR author) and `-HUMAN` (any other person) are suffixes.
@@ -79,7 +94,7 @@ watchlist; `-SELF` (the PR author) and `-HUMAN` (any other person) are suffixes.
 |-------|-----|------------|
 | `CHECK … fail` / `cancel` | CI | Surface it. If it's a clear flake or an obvious break, investigate and offer a fix. Otherwise summarise. |
 | `CHECK all N checks passed` | CI | CI is green — nothing to do. |
-| `COMMENT` / `REVIEW-COMMENT` / `REVIEW` `<bot>` | AI review bot | Actionable. Read the targeted code (use `read-comment.sh` for the full body), then **auto-fix if trivially safe**, else triage (Phase 4). |
+| `COMMENT` / `REVIEW-COMMENT` / `REVIEW` `<bot>` | AI review bot | Actionable. Read the targeted code (use `read-comment.sh` for the full body), then **auto-fix if trivially safe**, else triage (Phase 5). |
 | `…-SELF` | PR author | Treat like a bot suggestion — your own notes on your own PR. Read the code, auto-fix if trivial, else triage. |
 | `…-HUMAN` | A reviewer | **Report, don't act.** Surface what they said and ask the user (address / reply / leave). Never edit code or reply on their behalf without explicit instruction. |
 
@@ -92,7 +107,7 @@ one-line correction. Apply these directly and report what changed
 
 When in doubt, triage rather than auto-fix.
 
-## Phase 4: Triage non-trivial items
+## Phase 5: Triage non-trivial items
 
 For anything not auto-fixed, use the `pr-feedback` bucket model:
 
@@ -106,7 +121,7 @@ Present the triage as a table and **wait for sign-off** before making
 non-trivial edits. Bots produce false positives — don't implement something
 just because a bot said it.
 
-## Phase 5: Respond & resolve
+## Phase 6: Respond & resolve
 
 After changes are pushed, hand off to `/pr-respond` to reply to threads and
 resolve the addressed ones. It's already bot-aware: terse, no pleasantries for
@@ -121,5 +136,6 @@ bot accounts; courteous for humans.
 - **Tuning the watcher:** `scripts/watch.sh` has two allowlists at the top —
   `BOTS` (review bots whose comments are actionable) and `IGNORE_LOGINS`
   (user-account automation to drop). Add new tools there.
-- **For a one-off snapshot** of what's already on a PR, don't use this skill —
-  use `pr-comments` (or `gh api`) directly. This skill is for *new* activity.
+- **For a one-off snapshot** with no ongoing watch, use `pr-comments` (or
+  `gh api`) directly. This skill checks existing feedback once on start, then
+  stays running for *new* activity.
