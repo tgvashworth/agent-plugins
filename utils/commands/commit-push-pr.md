@@ -47,7 +47,9 @@ $1
    - Push branch: `git push -u origin <branch-name>`
    - Verify push succeeded
 5. **Create PR**:
-   - Draft PR description based on ALL commits in the branch (not just the latest)
+   - **Draft the PR description in two passes:**
+     - *Pass 1 — capture the change:* Based on ALL commits in the branch (not just the latest), write what changed and why.
+     - *Pass 2 — rewrite for a stranger:* Rewrite the description from the perspective of someone with no prior context on this change. The PR must stand on its own — explain the problem and the change in simple, clear words, with enough context to understand it cold. Strip out any references to development-discussion internals (review back-and-forth, "as discussed", earlier attempts, iteration history); describe the end result, not how you got there.
    - PR format: summary (1-3 bullets), test plan checklist, next steps if relevant
    - **Link to issues**: If a related issue was found in context, include `Closes #<number>` at the end of the PR body. If multiple issues are relevant, list each on its own line (e.g. `Closes #123`, `Closes #456`).
    - Use: `gh pr create --title "title" --body "description"`

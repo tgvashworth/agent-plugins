@@ -44,4 +44,5 @@ Each plugin has a `.claude-plugin/plugin.json` manifest. The marketplace registr
 - The utils plugin is published as `u` (not `utils`) — the name in `plugin.json` controls this.
 - Commands use `argument-hint` frontmatter to show usage hints in the command palette.
 - Commit messages: no attribution footers, match existing repo style, short and actionable (see `utils/templates/common.md`).
+- **Bump the plugin version** in the relevant `.claude-plugin/plugin.json` (e.g. `utils/.claude-plugin/plugin.json`) as part of any PR that changes that plugin. Use semver: patch for fixes/doc tweaks, minor for new features.
 - The playbook-dev plugin follows a 5-stage pipeline pattern (0-setup through 4-finalization) documented in `playbook-dev/references/playbook-pattern.md`.
