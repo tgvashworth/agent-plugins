@@ -10,6 +10,8 @@ allowed-tools:
   - Bash(git checkout:*)
   - Bash(git push:*)
   - Bash(gh pr create:*)
+  - Bash(gh issue:*)
+  - Bash(gh search:*)
 argument-hint: [guidance]
 ---
 
@@ -27,7 +29,11 @@ Gather this information in parallel:
 - Changes to commit: `git diff HEAD`
 - All commits in branch: `git log --oneline origin/main..HEAD` (or appropriate base branch)
 - Current branch: `git branch --show-current`
-- Related issues: Check if the branch name contains an issue number (e.g. `feature/123-foo` → `#123`). Also check user guidance for issue references. If found, run `gh issue view <number>` to confirm it exists.
+- Related issues: Identify **every** issue this change is relevant to. The right issue is often not obvious, so dig in a few places:
+  - The branch name (e.g. `feature/123-foo` → `#123`)
+  - User guidance and the branch's commit messages
+  - Open issues describing the problem this change solves — run `gh issue list` or `gh search issues "<keywords from the diff>"` and match them against what actually changed
+  For each candidate, run `gh issue view <number>` to confirm it exists and that this change genuinely addresses it, then decide whether the PR *closes* it (fully resolves it) or merely *relates to* it (touches it without resolving it).
 
 ## User Guidance
 
@@ -51,7 +57,10 @@ $1
      - *Pass 1 — capture the change:* Based on ALL commits in the branch (not just the latest), write what changed and why.
      - *Pass 2 — rewrite for a stranger:* Rewrite the description from the perspective of someone with no prior context on this change. The PR must stand on its own — explain the problem and the change in simple, clear words, with enough context to understand it cold. Strip out any references to development-discussion internals (review back-and-forth, "as discussed", earlier attempts, iteration history); describe the end result, not how you got there.
    - PR format: summary (1-3 bullets), test plan checklist, next steps if relevant
-   - **Link to issues**: If a related issue was found in context, include `Closes #<number>` at the end of the PR body. If multiple issues are relevant, list each on its own line (e.g. `Closes #123`, `Closes #456`).
+   - **Link to issues** (required — do not skip): In the PR body, reference every relevant issue found above, each on its own line, using the correct keyword:
+     - `Closes #<number>` for each issue this PR fully resolves
+     - `Refs #<number>` for issues that are relevant but not fully resolved here
+     If, after genuinely checking, no issue is relevant, say so in your reply to the user (not in the PR body) so it's clear the step wasn't simply forgotten.
    - Use: `gh pr create --title "title" --body "description"`
    - Return the PR URL
 
