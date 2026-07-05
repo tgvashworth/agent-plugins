@@ -100,6 +100,17 @@ Walk through code changes or a plan in a logical, grouped sequence — one group
 /tourguide 42
 ```
 
+### `/write [topic, draft file path, or guidance]`
+
+Write or improve a substantial document through a structured process: fix the goals, outline the key points, map the audience, design the structure, draft it, then run two independent review passes (a cold-read for clarity and a style pass for LLM-isms and British English).
+
+**Example:**
+```bash
+/write proposal to move billing onto the new pipeline
+/write docs/rfc-auth.md
+/write "make this readable for the leadership team"
+```
+
 ## Features
 
 - **Fast**: Minimal overhead, executes quickly
