@@ -31,6 +31,7 @@ Create a commit, push to remote, and open a pull request.
 - Commits changes with verification
 - Pushes to remote
 - Opens a PR with auto-generated description
+- If a draft PR already exists, re-writes its description from scratch and marks it ready for review
 - Optional: Provide guidance for commit/PR messages
 
 **Example:**
@@ -41,7 +42,7 @@ Create a commit, push to remote, and open a pull request.
 
 ### `/commit-push-draft [guidance]`
 
-Same as `/commit-push-pr` but creates a draft PR.
+Same as `/commit-push-pr` but creates a draft PR. If a PR already exists for the branch, updates it in place instead (leaving its draft/ready state alone).
 
 **Example:**
 ```bash
