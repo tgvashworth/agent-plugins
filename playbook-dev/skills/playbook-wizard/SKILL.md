@@ -1,6 +1,6 @@
 ---
 name: playbook-wizard
-description: This skill should be used when the user asks to "create a playbook", "build an analysis playbook", "design a multi-stage workflow", "set up an LLM analysis pipeline", or uses the /playbook create command. Provides guided, step-by-step playbook creation orchestrating all other playbook-dev skills.
+description: This skill should be used when the user asks to "create a playbook", "build an analysis playbook", "design a multi-stage workflow", "set up an LLM analysis pipeline", or uses the /playbook-dev:create command. Provides guided, step-by-step playbook creation orchestrating all other playbook-dev skills.
 version: 0.1.0
 ---
 

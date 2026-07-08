@@ -57,10 +57,10 @@ $1
 ## Usage Examples
 
 ```
-/playbook create code review analysis for pull request quality
-/playbook create security audit for vulnerability assessment
-/playbook create customer feedback analysis for support tickets
-/playbook create operational review for production event postmortems
+/playbook-dev:create code review analysis for pull request quality
+/playbook-dev:create security audit for vulnerability assessment
+/playbook-dev:create customer feedback analysis for support tickets
+/playbook-dev:create operational review for production event postmortems
 ```
 
 ## Notes

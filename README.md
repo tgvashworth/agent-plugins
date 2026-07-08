@@ -18,21 +18,24 @@ Or run `/plugin` to open the interactive plugin manager and browse available plu
 
 ### playbook-dev
 
-Create structured, multi-stage analysis playbooks for LLM-driven workflows. Use the guided `/playbook create` wizard to scaffold a new playbook, then draw on ~20 skills for stage authoring, quality gates, and advanced patterns like attribution and clustering.
+Create structured, multi-stage analysis playbooks for LLM-driven workflows. Use the guided `/playbook-dev:create` wizard to scaffold a new playbook, then draw on ~20 skills for stage authoring, quality gates, and advanced patterns like attribution and clustering.
 
 ### utils (installed as `u`)
 
 A grab-bag of useful commands:
 
-- `/context` — switch context and get up to speed with a task, ticket, or branch
+- `/context` — get up to speed on a task, ticket, or branch
 - `/commit` — create a commit with an auto-generated message
 - `/commit-push-pr` — commit, push, and open a PR
 - `/commit-push-draft` — commit, push, and open a draft PR
-- `/bg` — spin off a task to a background agent
-- `/remember` — persist a convention or instruction to the project's shared CLAUDE.md/AGENTS.md
+- `/pr-comments` — fetch PR comments, reviews, and threads in one call
 - `/pr-feedback` — triage and act on PR review feedback
-- `/pr-comments` — fetch PR comments, reviews, and threads
+- `/pr-respond` — reply to and resolve PR review threads
+- `/review-agent` — review a PR and watch it for new CI failures and comments
+- `/remember` — persist a convention to the project's shared AGENTS.md/CLAUDE.md
+- `/write` — draft or improve a longer document through a structured process
 - `/tourguide` — walk through changes or a plan one group at a time
+- `/bg` — run a task in a background agent
 
 ## Author
 

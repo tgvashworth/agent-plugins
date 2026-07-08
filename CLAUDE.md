@@ -18,7 +18,7 @@ This is a **pure-markdown** codebase — no build, lint, or test commands. All p
 playbook-dev/
   .claude-plugin/plugin.json      # Plugin manifest
   agents/                         # Subagent definitions (playbook-validator)
-  commands/                       # Slash commands (/playbook create)
+  commands/                       # Slash commands (/playbook-dev:create)
   references/                     # Playbook pattern docs (the core reference)
   skills/                         # ~20 skill files (SKILL.md with frontmatter)
 utils/
@@ -33,7 +33,7 @@ Each plugin has a `.claude-plugin/plugin.json` manifest. The marketplace registr
 
 **Skills** (`skills/<name>/SKILL.md`) are auto-activated by Claude based on context matching against the `description` field in YAML frontmatter. They are not invoked directly by users.
 
-**Commands** (`commands/<name>.md`) are user-invocable via `/<plugin> <command>` (e.g., `/playbook create`). They use `allowed-tools` in frontmatter to restrict tool access and `$1` as a placeholder for user arguments.
+**Commands** (`commands/<name>.md`) are user-invocable via `/<plugin>:<command>` (e.g., `/playbook-dev:create`). They use `allowed-tools` in frontmatter to restrict tool access and `$1` as a placeholder for user arguments.
 
 **Agents** (`agents/<name>.md`) define subagent behavior with `tools`, `model`, and `whenToUse` frontmatter fields.
 

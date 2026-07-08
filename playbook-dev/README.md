@@ -13,7 +13,7 @@ A playbook is an **executable specification** encoded as markdown documents that
 ## Features
 
 ### Guided Creation
-Use `/playbook create` to walk through the full playbook creation process with interactive guidance.
+Use `/playbook-dev:create` to walk through the full playbook creation process with interactive guidance.
 
 ### Skills by Category
 
@@ -53,7 +53,7 @@ The `playbook-validator` agent automatically checks your playbook at key milesto
 
 ```bash
 # Start the guided wizard
-/playbook create
+/playbook-dev:create
 
 # Or invoke skills directly as you build
 # Claude will activate relevant skills based on context

@@ -35,12 +35,29 @@ offer to use the original verbatim or ask for an alternative phrasing.
 
 ## Step 2: Determine the target file
 
-Find the closest relevant instruction file in the project. Search from the project root for
-files like `AGENTS.md`, `CLAUDE.md`, or equivalents inside `.claude/`. Prefer `AGENTS.md`
-over `CLAUDE.md` when both exist at the same level.
+Pick the instruction file whose **scope matches the instruction**, not just the one at the
+project root. A repo can have several (`AGENTS.md` / `CLAUDE.md` at the root and inside
+subdirectories, packages, or `.claude/`).
 
-If no instruction file exists, propose creating `CLAUDE.md` at the project root and wait
-for the user to confirm before creating it.
+1. **Enumerate all instruction files** in the repo — search for `AGENTS.md` and `CLAUDE.md`
+   at the root and in every subdirectory (also check inside `.claude/`).
+2. **Decide the instruction's scope.** Is it a project-wide convention, or is it specific to
+   one component/package/subdirectory? Judge from what the instruction is about and where the
+   relevant code lives (the files under discussion in the conversation are a strong signal).
+3. **Match scope to file:**
+   - Subdirectory-specific → the instruction file **in that subdirectory**, or the nearest
+     ancestor directory that has one.
+   - Project-wide → the **root** instruction file.
+4. **At the chosen level, prefer `AGENTS.md` over `CLAUDE.md`** when both exist. If only one
+   exists, use it.
+
+If the appropriate directory has no instruction file, propose creating one there and wait for
+the user to confirm before creating it. Name it to match what the rest of the repo already
+uses (`AGENTS.md` if other directories use `AGENTS.md`, otherwise `CLAUDE.md`); if the repo
+has none at all, default to `CLAUDE.md`.
+
+If the correct scope is ambiguous (e.g. the instruction could reasonably go in a package file
+or the root), ask the user which file to use rather than guessing.
 
 ## Step 3: Check for duplicates or conflicts
 
