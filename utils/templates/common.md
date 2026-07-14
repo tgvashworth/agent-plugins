@@ -31,6 +31,18 @@ Keep commit messages short and actionable:
 - No attribution footers
 - Match the existing commit style in the repository
 
+## Referring to files
+
+In commit messages and PR descriptions, always refer to files by their
+**repository-relative path** (e.g. `utils/skills/remember/SKILL.md`).
+
+**Never include machine-local paths** — home-directory paths (`~/`, `~/.claude`,
+`$HOME/...`) or absolute paths under a user's home (`/Users/<name>/...`,
+`/home/<name>/...`). They are specific to one machine, meaningless to anyone
+else reading the commit or PR, and must never appear in shared git history. If a
+diff or your working notes surface such a path, rewrite it as a repo-relative
+path (or drop it) before it reaches the message or PR body.
+
 ## Step-by-step Verification
 
 Always verify at each step:
