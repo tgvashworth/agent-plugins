@@ -87,9 +87,9 @@ chars — when you need the full text, call
 
 ## Phase 4: Handle events as they land
 
-Handling feedback, pushing a fix, and drawing the next wave of feedback is one
-**round** of the loop — count them, and consult the **stop-here score** (below)
-before starting each new one.
+Each time you handle feedback, push a fix, and draw the next wave is another
+**round** of the loop (the initial review pass was round 1) — count them, and
+consult the **stop-here score** (below) before starting each new one.
 
 Event lines carry an authorship label. The **base label means a bot** on the
 watchlist; `-SELF` (the PR author) and `-HUMAN` (any other person) are suffixes.
@@ -161,7 +161,11 @@ when recent rounds have stopped earning their keep:
 | ~1–2 | **weak** | Normal iteration. Handle events, keep the watcher running, no ceremony. |
 | ~3–4 | **moderate** | Be deliberate. Prefer to batch remaining items into one more push rather than chase each new bot comment. Tell the user you're a few rounds deep and roughly what each round has been worth. |
 | ~5–7 | **strong** | Default to stopping. Do **not** kick off a fresh `/review`. Summarise everything across all rounds and recommend pausing for human input. Only start another round if there's a clear, high-value reason (a real CI break, a blocking human comment) — and state that reason explicitly before you do. |
-| ~8–10 | **hard stop** | Do not start another round, whatever softening the productive rounds bought you. Stop the watcher (end the persistent `Monitor`). Post a summary of every round and all outstanding items, and wait for explicit human direction before doing anything else. |
+| ~8–10 | **hard stop** | Do not start another round, whatever softening the productive rounds bought you. Stop the watcher (end the persistent `Monitor`). Report a summary of every round and all outstanding items to the user, and wait for explicit human direction before doing anything else. |
+
+The round ranges are a guide, not a formula — a low-value round or two pushes you
+into the next row early, and a productive streak lets you hold a row a little
+longer (never past the hard stop).
 
 At the **start of each round**, announce where you are — e.g.
 `Round 4 — stop-here score: moderate (last round was low-value: only nits)`.
