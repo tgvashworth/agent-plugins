@@ -87,6 +87,10 @@ chars — when you need the full text, call
 
 ## Phase 4: Handle events as they land
 
+Each time you handle feedback, push a fix, and draw the next wave is another
+**round** of the loop (the initial review pass was round 1) — count them, and
+consult the **stop-here score** (below) before starting each new one.
+
 Event lines carry an authorship label. The **base label means a bot** on the
 watchlist; `-SELF` (the PR author) and `-HUMAN` (any other person) are suffixes.
 
@@ -127,8 +131,56 @@ After changes are pushed, hand off to `/pr-respond` to reply to threads and
 resolve the addressed ones. It's already bot-aware: terse, no pleasantries for
 bot accounts; courteous for humans.
 
+Then, before the next wave of feedback pulls you into another lap, re-check the
+**stop-here score** (below) and decide whether to keep going or hand back.
+
+## Back pressure: the stop-here score
+
+This skill can loop for a long time. Every push triggers fresh CI and another
+wave of bot re-reviews, which lands as new events, which you handle, which means
+another push. Left unchecked it spins on — and each lap tends to be worth less
+than the last. Track how many laps you've done and lean against continuing.
+
+**A round** is one lap of that loop: a batch of incoming feedback (CI +
+comments) that you handle — fixing and/or triaging — ending in a push (or a
+deliberate decision that nothing needs pushing). The initial review pass
+(Phases 1–2) is round 1. Keep a running count across the session.
+
+**The stop-here score** is how hard you should be leaning toward stopping and
+handing back to the human. It's driven by the round count, and it climbs faster
+when recent rounds have stopped earning their keep:
+
+- Weigh each round's value as you go. A **productive** round lands substantive
+  fixes that genuinely improve the PR. A **low-value** round produces only nits,
+  formatting, false positives, or nothing actionable. Two low-value rounds in a
+  row bump the score up a level early; a run of productive rounds lets you hold
+  a level a little longer — but never past the hard stop.
+
+| Rounds | Score | How to behave |
+|--------|-------|---------------|
+| ~1–2 | **weak** | Normal iteration. Handle events, keep the watcher running, no ceremony. |
+| ~3–4 | **moderate** | Be deliberate. Prefer to batch remaining items into one more push rather than chase each new bot comment. Tell the user you're a few rounds deep and roughly what each round has been worth. |
+| ~5–7 | **strong** | Default to stopping. Do **not** kick off a fresh `/review`. Summarise everything across all rounds and recommend pausing for human input. Only start another round if there's a clear, high-value reason (a real CI break, a blocking human comment) — and state that reason explicitly before you do. |
+| ~8–10 | **hard stop** | Do not start another round, whatever softening the productive rounds bought you. Stop the watcher (end the persistent `Monitor`). Report a summary of every round and all outstanding items to the user, and wait for explicit human direction before doing anything else. |
+
+The round ranges are a guide, not a formula — a low-value round or two pushes you
+into the next row early, and a productive streak lets you hold a row a little
+longer (never past the hard stop).
+
+At the **start of each round**, announce where you are — e.g.
+`Round 4 — stop-here score: moderate (last round was low-value: only nits)`.
+This keeps the pressure visible to you and the user, and makes the eventual stop
+feel earned rather than abrupt.
+
+The count is about *your own* automated laps. A fresh, explicit instruction from
+the user ("keep going", "address the new comments") resets the pressure — start
+a new count from there.
+
 ## Guidelines
 
+- **Count your rounds and watch the stop-here score.** As you approach ~5
+  rounds, default to stopping; by ~10, hard-stop, kill the watcher, and wait for
+  the human. Low-value rounds ratchet the pressure up faster.
 - **Never auto-act on a `-HUMAN` comment.** Report and ask.
 - **Confirm before non-trivial edits.** Auto-fix is for the trivially safe only.
 - **Don't silently apply bot suggestions** beyond the trivial bar above.
