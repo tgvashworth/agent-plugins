@@ -38,6 +38,7 @@ fi
 # new review tools start posting on your PRs.
 BOTS=(
   "copilot-pull-request-reviewer[bot]"
+  "copilot-pull-request-reviewer"
   "Copilot"
   "cursor[bot]"
   "coderabbitai[bot]"
