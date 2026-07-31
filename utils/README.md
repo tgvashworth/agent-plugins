@@ -101,6 +101,16 @@ Walk through code changes or a plan in a logical, grouped sequence — one group
 /tourguide 42
 ```
 
+### `/what [what was unclear]`
+
+Re-explain the previous message in plain English — no jargon, no assumed context, bottom line first. Use it when a reply didn't land.
+
+**Example:**
+```bash
+/what
+/what "the bit about the migration"
+```
+
 ### `/write [topic, draft file path, or guidance]`
 
 Write or improve a substantial document through a structured process: fix the goals, outline the key points, map the audience, design the structure, draft it, then run two independent review passes (a cold-read for clarity and a style pass for LLM-isms and British English).
