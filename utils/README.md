@@ -70,6 +70,16 @@ Append a convention, fact, or instruction to the project's shared `AGENTS.md` or
 /remember API handlers must return structured errors using pkg/apierror
 ```
 
+### `/ready-for-review [PR number or URL]`
+
+Take a draft PR whose description has gone stale, rewrite the title and body from scratch against what the branch actually contains, and mark it ready for review. Stops if you have uncommitted or unpushed work, then hands off to the review agent.
+
+**Example:**
+```bash
+/ready-for-review
+/ready-for-review 42
+```
+
 ### `/pr-feedback [PR number or URL]`
 
 Triage and act on PR review feedback. Fetches all comments, categorises each as implement/acknowledge/decline, plans changes, and implements approved fixes.
