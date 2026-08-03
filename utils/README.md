@@ -103,7 +103,7 @@ Walk through code changes or a plan in a logical, grouped sequence — one group
 
 ### `/what [what was unclear]`
 
-Re-explain the previous message in plain English — no jargon, no assumed context, bottom line first. Use it when a reply didn't land.
+Re-explain the previous message in plain English — reconnect it to the thread, define only what you introduced, bottom line first. Use it when a reply didn't land.
 
 **Example:**
 ```bash
