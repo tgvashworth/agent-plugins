@@ -1,9 +1,10 @@
 ---
 name: what
 description: >
-  Re-explain your previous message in plain English, assuming no context and no
-  jargon. Use when the user invokes /what, or says they don't understand what
-  you just said and wants it rewritten more clearly.
+  Re-explain your previous message in plain English, reconnecting it to the
+  conversation the reader has only lightly followed. Use when the user invokes
+  /what, or says they don't understand what you just said and wants it
+  rewritten more clearly.
 argument-hint: "[what specifically was unclear]"
 disable-model-invocation: true
 ---
@@ -17,13 +18,19 @@ The reader did not understand your last message. Explain it again, from scratch.
 **Start over.** Do not repeat, quote, or defend the original wording — it
 already failed. Write a fresh explanation of the same thing.
 
-**Assume no context.** The reader has not followed the conversation, has not
-read the code, and does not know what you were working on. Give them the
-background each point needs to stand up on its own.
+**Reconnect the thread.** The reader has been following only lightly, or has
+lost the connection between the conversation so far and your latest message.
+They know the broad goal; they don't know how this message relates to it.
+Briefly re-anchor — what you were doing and why this message matters to it —
+then explain the point itself.
 
-**No jargon.** Plain, ordinary words. If a technical term, internal name,
-acronym, or file path is genuinely unavoidable, define it in a few words the
-first time it appears. Otherwise, cut it.
+**Plain words, judged against the reader.** Prefer ordinary language. For
+technical terms, internal names, and acronyms, make a judgement call: assume
+the reader knows anything they've used in their own messages, and reasonable
+professional background beyond this session. Define — in a few words, first
+use — only the things *you* introduced: names, concepts, or shorthand from
+your own work that they never engaged with. Don't burn words explaining what
+they obviously know.
 
 **Lead with the bottom line.** First sentence says the thing that matters —
 what happened, what you found, or what you need from them. Details after.
