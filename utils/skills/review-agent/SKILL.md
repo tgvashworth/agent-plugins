@@ -57,12 +57,35 @@ Agent(
   subagent_type: "general-purpose",
   run_in_background: true,
   description: "Review PR #<N>",
-  prompt: "Run the /review skill against PR #<N> in this repo. Report the
-           findings back as a concise list grouped by severity (blocking /
-           should-fix / nit), each with file:line and a one-line rationale.
-           Do not post anything to the PR — just report back.",
+  prompt: "Run the /review skill against PR #<N> in this repo. Then do a
+           second pass over just the comments added or changed in the diff,
+           applying the comment-quality rules below. Report all findings back
+           as a concise list grouped by severity (blocking / should-fix /
+           nit), each with file:line and a one-line rationale.
+           Do not post anything to the PR — just report back.
+
+           Comment-quality rules — flag any added/changed comment that:
+           <the three rules from 'Comment quality pass' below, verbatim>",
 )
 ```
+
+### Comment quality pass
+
+Every comment the PR adds or changes gets checked for brevity, clarity, and
+necessity. Flag any comment that breaks these rules:
+
+- **No PR numbers, ticket IDs, names, or project names.** A future reader has
+  none of that context and the pointer rots. State the constraint itself
+  rather than where it was decided.
+- **No vague indicators of the state of the project** — nothing that reads as
+  "currently", "not yet", "will be added later". Describe the code as if it
+  has always been this way.
+- **Nothing that looks like an agent's working memory** — narration of the
+  change being made, notes to a reviewer, reasoning about why an edit is
+  correct. Remove it.
+
+Fixes for these are comment-wording changes, so they meet the trivially-safe
+bar in Phase 4: apply them directly rather than triaging.
 
 Tell the user the review is running in the background and that you'll fold its
 findings in alongside incoming feedback when it returns.
