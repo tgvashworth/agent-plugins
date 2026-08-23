@@ -22,7 +22,8 @@ Gather this information in parallel:
 
 - Current status: `git status`
 - Changes to commit: `git diff HEAD`
-- Recent commits for style: `git log --oneline -10`
+- House style: per "Where house style comes from" above — check for a style file
+  first, and sample `git log --oneline -20` only if there is none
 - Current branch: `git branch --show-current`
 
 ## User Guidance
