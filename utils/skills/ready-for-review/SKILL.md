@@ -68,14 +68,15 @@ Read the PR writing guide and follow it:
 
 `${CLAUDE_PLUGIN_ROOT}/templates/pr-body.md`
 
-It covers finding related issues, the two-pass drafting method, the format, and
-the issue-linking rules. Follow it exactly — including the second pass, which
-is the one that matters here. A draft body written mid-work is full of context
-only you have; the rewrite has to stand on its own for a reviewer coming in
-cold.
+It covers writing the title, finding related issues, the two-pass drafting
+method, the format, and the issue-linking rules. Follow it exactly — including
+the second pass, which is the one that matters here. A draft body written
+mid-work is full of context only you have; the rewrite has to stand on its own
+for a reviewer coming in cold.
 
-Rewrite the **title** too. Draft titles are often placeholders ("wip", "try
-something") or describe where the work started rather than where it landed.
+Rewrite the **title** too, per "Writing the title" in that guide. Draft titles
+are often placeholders ("wip", "try something") or describe where the work
+started rather than where it landed.
 
 ## Phase 4: Update and open for review
 

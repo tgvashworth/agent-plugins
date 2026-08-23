@@ -4,6 +4,50 @@ How to find the issues a PR relates to, and how to write the title and body.
 These rules apply whether the PR is being created for the first time or an
 existing one is being rewritten.
 
+## Writing the title
+
+This governs the PR title and the commit subject (the first line) — under
+squash-merge they become the same line, and it is what anyone scanning
+`git log`, a release page or a blame has to work from.
+
+### The test
+
+**Name the thing that changed and what now happens to it.** Someone who has
+never seen this change should be able to guess which files it touches.
+
+### Rules
+
+- Open with the conventional-commit prefix (`feat:`, `fix:`, `refactor:`,
+  `perf:`, `docs:`, `test:`, `chore:`, `build:`, `ci:`, `style:`), then say what
+  changed.
+- **Name at least one real, findable thing** — the page, model class, management
+  command, admin screen, URL, setting, flag or file. If the title contains no
+  noun you could grep the codebase for, it fails the test.
+- **Never open with an article or "what" followed by a generic noun.** "the
+  sweep", "a question", "what the conversions left standing" read as riddles
+  because the subject is a pronoun in disguise. This is the most common failure.
+- **Do not give code intentions.** Code does not own up, admit, want or decide.
+  Say what it now does.
+- Under 72 characters where you can.
+- Plain, natural English is right; vagueness is not. "stop the equipment admin
+  page rebuilding its dropdowns per row" is both natural and specific.
+
+### Where house style comes from
+
+Before drafting, look for a house style file, first match wins:
+
+1. `.github/COMMIT_STYLE.md`
+2. `.claude/commit-style.md`
+
+**If one exists, it is the only source of style.** Read it and follow it, and
+**do not read `git log` for phrasing** — the log may already carry the drift
+that file exists to correct. The rules above still apply; the file refines them.
+
+**If neither exists**, sample `git log --oneline -20` to infer local convention
+— but check what you find against the test above before copying it. If recent
+titles fail the test, do not imitate them: follow the rules above instead, and
+say so in your reply so the drift is visible to the user.
+
 ## Finding related issues
 
 Identify **every** issue this change is relevant to. The right issue is often

@@ -39,6 +39,21 @@ A grab-bag of useful commands:
 - `/u:what` — re-explain the last message in plain English when it didn't land
 - `/u:bg` — run a task in a background agent
 
+### Setting commit and PR title style per repo
+
+The commit and PR commands infer house style from recent commits, which works
+until the log drifts — then each new title copies the last, and the drift
+compounds.
+
+To pin it instead, add a `.github/COMMIT_STYLE.md` (or `.claude/commit-style.md`)
+to the repo. When that file exists it becomes the only source of style and the
+log is not read for phrasing at all, so a polluted log stops propagating. Put
+the house rules in it, and worked before/after examples if the repo has a
+failure mode worth naming.
+
+With no such file the commands fall back to sampling the log, but check what
+they find against their built-in title test first, rather than copying it blind.
+
 ## Cookbook
 
 These skills are built to work together. The combinations that I find useful:
