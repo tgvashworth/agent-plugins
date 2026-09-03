@@ -121,6 +121,20 @@ Re-explain the previous message in plain English — reconnect it to the thread,
 /what "the bit about the migration"
 ```
 
+### `/deslop [target]`
+
+Rewrite words for one-pass comprehension — code comments, user-facing copy, commit messages, PR titles and bodies, ticket titles and bodies. Plain English, short sentences, no filler or AI tells, no personification, no agent working memory in comments. Only the words change; logic, markup, and variables stay put.
+
+**Example:**
+```bash
+/deslop                       # comments and strings in the branch diff
+/deslop src/forms.py          # whole-file pass
+/deslop commit                # amend HEAD's message (if unpushed)
+/deslop 42                    # PR title and body
+/deslop ABC-123               # ticket title and description
+/deslop "Oops! Something went wrong. Please try again later!"
+```
+
 ### `/write [topic, draft file path, or guidance]`
 
 Write or improve a substantial document through a structured process: fix the goals, outline the key points, map the audience, design the structure, draft it, then run two independent review passes (a cold-read for clarity and a style pass for LLM-isms and British English).

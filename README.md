@@ -37,6 +37,7 @@ A grab-bag of useful commands:
 - `/u:write` — draft or improve a longer document through a structured process
 - `/u:tourguide` — walk through changes or a plan one group at a time
 - `/u:what` — re-explain the last message in plain English when it didn't land
+- `/u:deslop` — plain-English pass over comments, copy, commit messages, PRs, or tickets
 - `/u:bg` — run a task in a background agent
 
 ### Setting commit and PR title style per repo
