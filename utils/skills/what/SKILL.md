@@ -10,6 +10,10 @@ argument-hint: "[what specifically was unclear]"
 
 # What
 
+Only apply this workflow when the user explicitly invokes it or directly asks
+for the previous response to be explained again. If it was selected implicitly,
+do not replace the previous response.
+
 The reader did not understand your last message. Explain it again, from scratch.
 
 ## Rules

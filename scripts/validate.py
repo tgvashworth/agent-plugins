@@ -18,8 +18,9 @@ ALLOWED_SKILL_KEYS = {
     "license",
     "allowed-tools",
     "metadata",
-    # Claude extensions. Codex ignores these except for the explicit-only flag,
-    # which is represented in agents/openai.yaml instead.
+    # Claude extensions that Codex also accepts. Explicit-only behavior is
+    # represented in agents/openai.yaml because Codex rejects
+    # disable-model-invocation: true.
     "argument-hint",
     "model",
     "user-invocable",
@@ -50,18 +51,182 @@ def load_json(path: Path, errors: list[str]) -> dict[str, object] | None:
     return value
 
 
+def _plain_scalar(value: str, path: Path, line_number: int, errors: list[str]) -> str | None:
+    """Validate the small YAML scalar subset used by skill frontmatter."""
+    value = value.strip()
+    if not value:
+        return ""
+    if value in {"null", "Null", "NULL", "~"}:
+        return ""
+    if value[0] in "[{&*!|>@`" or value.startswith(("- ", "? ", ": ")):
+        errors.append(
+            f"{path.relative_to(ROOT)}:{line_number}: unsupported YAML scalar syntax"
+        )
+        return None
+    if value[0] in "'\"":
+        quote = value[0]
+        if len(value) < 2 or value[-1] != quote:
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: unterminated quoted scalar"
+            )
+            return None
+        return value[1:-1]
+    if ": " in value:
+        errors.append(
+            f"{path.relative_to(ROOT)}:{line_number}: quote scalars containing ': '"
+        )
+        return None
+    return value
+
+
+def _nested_block(
+    lines: list[str], path: Path, first_line: int, errors: list[str]
+) -> bool:
+    """Validate indented mappings and lists without pretending to parse all YAML."""
+    valid = True
+    for offset, line in enumerate(lines):
+        if not line.strip():
+            continue
+        line_number = first_line + offset
+        if "\t" in line:
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: tabs are not valid indentation"
+            )
+            valid = False
+            continue
+        if not line.startswith("  "):
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: nested YAML must be indented"
+            )
+            valid = False
+            continue
+        item = line.strip()
+        if item == "-":
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: empty list item is unsupported"
+            )
+            valid = False
+            continue
+        is_list_item = item.startswith("- ")
+        if is_list_item:
+            item = item[2:].strip()
+        mapping = re.match(r"^[A-Za-z][A-Za-z0-9_-]*:\s*(.*)$", item)
+        if not is_list_item and not mapping:
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: expected a nested mapping or list item"
+            )
+            valid = False
+            continue
+        value = mapping.group(1) if mapping else item
+        if _plain_scalar(value, path, line_number, errors) is None:
+            valid = False
+    return valid
+
+
+def _block_scalar(
+    lines: list[str], path: Path, first_line: int, errors: list[str]
+) -> str | None:
+    """Validate indentation while treating block-scalar content as plain text."""
+    for offset, line in enumerate(lines):
+        if not line.strip():
+            continue
+        line_number = first_line + offset
+        if "\t" in line:
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: tabs are not valid indentation"
+            )
+            return None
+        if not line.startswith("  "):
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: block scalar must be indented"
+            )
+            return None
+    return "\n".join(part.strip() for part in lines).strip()
+
+
 def frontmatter(text: str, path: Path, errors: list[str]) -> tuple[dict[str, str], str] | None:
     match = re.match(r"\A---\n(.*?)\n---\n", text, re.DOTALL)
     if not match:
         errors.append(f"{path.relative_to(ROOT)}: missing or malformed YAML frontmatter")
         return None
 
-    raw = match.group(1)
+    lines = match.group(1).splitlines()
     fields: dict[str, str] = {}
-    for line in raw.splitlines():
+    valid = True
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        line_number = index + 2
+        if not line.strip():
+            index += 1
+            continue
+        if "\t" in line:
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: tabs are not valid indentation"
+            )
+            valid = False
+            index += 1
+            continue
         key_match = re.match(r"^([A-Za-z][A-Za-z0-9_-]*):(?:\s*(.*))?$", line)
-        if key_match:
-            fields[key_match.group(1)] = (key_match.group(2) or "").strip(" '\"")
+        if not key_match:
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: unsupported YAML syntax"
+            )
+            valid = False
+            index += 1
+            continue
+
+        key = key_match.group(1)
+        if key in fields:
+            errors.append(
+                f"{path.relative_to(ROOT)}:{line_number}: duplicate frontmatter key {key!r}"
+            )
+            valid = False
+
+        raw_value = (key_match.group(2) or "").strip()
+        index += 1
+        block_start = index
+        while index < len(lines) and (not lines[index].strip() or lines[index][0].isspace()):
+            index += 1
+        block = lines[block_start:index]
+
+        if raw_value in {"|", ">"}:
+            if not block or not any(part.strip() for part in block):
+                errors.append(
+                    f"{path.relative_to(ROOT)}:{line_number}: empty block scalar for {key!r}"
+                )
+                valid = False
+                value = ""
+            else:
+                parsed_block = _block_scalar(block, path, block_start + 2, errors)
+                if parsed_block is None:
+                    valid = False
+                    value = ""
+                else:
+                    value = parsed_block
+        elif raw_value:
+            if block:
+                errors.append(
+                    f"{path.relative_to(ROOT)}:{block_start + 2}: unexpected indented content"
+                )
+                valid = False
+            parsed_scalar = _plain_scalar(raw_value, path, line_number, errors)
+            if parsed_scalar is None:
+                valid = False
+                value = ""
+            else:
+                value = parsed_scalar
+        elif block:
+            if not _nested_block(block, path, block_start + 2, errors):
+                valid = False
+            value = "<nested>" if any(part.strip() for part in block) else ""
+        else:
+            value = ""
+
+        fields[key] = value
+
+    if not valid:
+        return None
     return fields, text[match.end() :]
 
 
@@ -104,8 +269,8 @@ def check_skills(errors: list[str]) -> None:
                 )
             else:
                 seen[name] = path
-            if "description" not in fields:
-                errors.append(f"{path.relative_to(ROOT)}: missing description")
+            if not fields.get("description"):
+                errors.append(f"{path.relative_to(ROOT)}: missing or empty description")
             for token, reason in PROHIBITED_SKILL_TEXT.items():
                 if token in body:
                     errors.append(f"{path.relative_to(ROOT)}: {reason}: {token}")

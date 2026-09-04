@@ -8,6 +8,8 @@ description: Commit current changes, optionally push them, and create or update 
 Complete only the delivery steps the user requested. Infer one of these modes:
 
 - **Commit:** create one local commit.
+- **Push:** push the current branch's existing commits without creating or
+  updating a PR.
 - **Draft PR:** commit, push, and create a draft PR; update an existing PR
   without changing its draft state.
 - **Ready PR:** commit, push, and create a ready PR; update an existing PR and
@@ -39,6 +41,10 @@ repository's default branch. Choose a descriptive branch name from the change.
 
 ## Commit
 
+Skip this section in **Push** mode. Do not stage or commit working-tree changes
+when the user asked only to push; report any such changes before pushing the
+existing commits.
+
 1. Review the full diff and determine whether one coherent commit is possible.
 2. Draft the message using the shared guidance and any user-supplied wording.
 3. Stage only the intended files and create the commit.
@@ -50,11 +56,14 @@ continue only if the branch already contains commits that should be shipped.
 
 ## Push
 
-For PR modes, push the current branch to its configured remote. Set an upstream
-only when it does not already have one. Never force-push unless the user
-explicitly requested history rewriting and the target has been verified.
+For Push and PR modes, push the current branch to its configured remote. Set an
+upstream only when it does not already have one. Never force-push unless the
+user explicitly requested history rewriting and the target has been verified.
 
 Verify that the remote contains the intended commit before changing a PR.
+If the branch has no commits ahead of its remote, report that it is already up
+to date. Push mode ends after this verification and must not create or update a
+PR.
 
 ## Create or update the PR
 

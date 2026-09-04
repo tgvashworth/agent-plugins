@@ -12,11 +12,17 @@ Launch a background agent to handle a task autonomously.
 
 ## Instructions
 
+Only apply this workflow when the user explicitly invokes it. If it was selected
+implicitly, do not delegate the task.
+
 If the user did not provide a task, tell them: "Usage: `/bg <task description>`" and stop.
 
-Otherwise, launch an Agent with:
-- **prompt**: the task from the user's request
-- **run_in_background**: `true`
-- **description**: a 3-5 word summary of the task
+Otherwise, use the host's background-delegation capability. Give the worker the
+task from the user's request, only the context it needs, a clear deliverable,
+and a short 3-5 word label.
 
-Then tell the user the agent has been launched.
+Do not expand the worker's authority beyond the user's request. If the host
+cannot delegate work in the background, say so instead of silently switching
+to a foreground workflow.
+
+Then tell the user what was delegated and how the result will be returned.

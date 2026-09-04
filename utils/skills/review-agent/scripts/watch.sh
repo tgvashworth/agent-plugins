@@ -65,8 +65,16 @@ fi
 # comments (*-HUMAN). Empty if the lookup fails; humans then all read as -HUMAN.
 PR_AUTHOR="$(gh pr view "$PR" --json author -q .author.login 2>/dev/null || echo "")"
 
-STATE_DIR="${REVIEW_AGENT_STATE_DIR:-${TMPDIR:-/tmp}}/review-agent-watch-${REPO//\//-}-${PR}"
-mkdir -p "$STATE_DIR"
+if [[ -n "${REVIEW_AGENT_STATE_DIR:-}" ]]; then
+  STATE_DIR="$REVIEW_AGENT_STATE_DIR"
+  mkdir -p "$STATE_DIR"
+else
+  STATE_DIR="$(mktemp -d "${TMPDIR:-/tmp}/review-agent-watch-${REPO//\//-}-${PR}.XXXXXX")" || {
+    echo "[watch] could not create an isolated state directory" >&2
+    exit 2
+  }
+  trap 'rm -rf -- "$STATE_DIR"' EXIT
+fi
 checks_state="$STATE_DIR/checks.json"
 allgreen_flag="$STATE_DIR/all-green"        # present once we've emitted "all passed"
 issue_seen="$STATE_DIR/issue-comments.ids"

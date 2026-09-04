@@ -210,7 +210,9 @@ a new count from there.
 - **Use `read-comment.sh`** when the 300-char teaser cuts off the rationale.
 - **Tuning the watcher:** `scripts/watch.sh` has two allowlists at the top —
   `BOTS` (review bots whose comments are actionable) and `IGNORE_LOGINS`
-  (user-account automation to drop). Add new tools there.
+  (user-account automation to drop). Add new tools there. Each watcher uses an
+  isolated temporary state directory by default. Set `REVIEW_AGENT_STATE_DIR`
+  only to provide a directory dedicated to that single watcher.
 - **For a one-off snapshot** with no ongoing watch, use `pr-comments` (or
   `gh api`) directly. This skill checks existing feedback once on start, then
   stays running for *new* activity.
