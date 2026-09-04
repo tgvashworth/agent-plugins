@@ -282,4 +282,4 @@ Before finalizing estimates:
 ## Additional Resources
 
 For impact estimation patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.8
+- **`../../references/playbook-pattern.md`** - Section 4.8

@@ -16,9 +16,9 @@ so learnings are shared with the whole team via source control.
 
 ## Step 1: Parse the input
 
-If `$ARGUMENTS` is non-empty, use it as the raw instruction to persist.
+If the user's request includes an instruction, use it as the raw instruction to persist.
 
-If `$ARGUMENTS` is empty, review the current conversation and infer what should be remembered.
+Otherwise, review the current conversation and infer what should be remembered.
 Look for:
 
 - Corrections the user made ("no, we always do X", "that's wrong, use Y instead")
@@ -29,7 +29,7 @@ Look for:
 Summarise what you've inferred as a concise instruction and **present it to the user for
 confirmation before writing**. Do not write anything until the user approves the wording.
 
-If `$ARGUMENTS` is verbose, tighten the wording while preserving meaning. Confirm the
+If the instruction is verbose, tighten the wording while preserving meaning. Confirm the
 tightened version with the user before writing. If the user rejects the tightened wording,
 offer to use the original verbatim or ask for an alternative phrasing.
 
@@ -54,7 +54,7 @@ subdirectories, packages, or `.claude/`).
 If the appropriate directory has no instruction file, propose creating one there and wait for
 the user to confirm before creating it. Name it to match what the rest of the repo already
 uses (`AGENTS.md` if other directories use `AGENTS.md`, otherwise `CLAUDE.md`); if the repo
-has none at all, default to `CLAUDE.md`.
+has none at all, default to `AGENTS.md` for cross-host compatibility.
 
 If the correct scope is ambiguous (e.g. the instruction could reasonably go in a package file
 or the root), ask the user which file to use rather than guessing.
@@ -88,7 +88,6 @@ refactoring into smaller files.
 ## Constraints
 
 - Never modify `CLAUDE.local.md` — that's personal, not shared.
-- Never write to auto memory (`~/.claude/projects/*/memory/`). The whole point is
-  repo-committed, shared knowledge.
-- Never write to `.claude/rules/`.
+- Never write to a host's private auto-memory or personal rules. The whole point
+  is repo-committed, shared knowledge.
 - Never delete or reorder existing content in the target file.

@@ -4,7 +4,6 @@ description: >
   Run a task in a background agent. Use when the user invokes /bg with a task
   description to spin off an autonomous sub-agent.
 argument-hint: <task description>
-disable-model-invocation: true
 ---
 
 # Background Agent
@@ -13,11 +12,17 @@ Launch a background agent to handle a task autonomously.
 
 ## Instructions
 
-If `$ARGUMENTS` is empty, tell the user: "Usage: `/bg <task description>`" and stop.
+Only apply this workflow when the user explicitly invokes it. If it was selected
+implicitly, do not delegate the task.
 
-Otherwise, launch an Agent with:
-- **prompt**: `$ARGUMENTS`
-- **run_in_background**: `true`
-- **description**: a 3-5 word summary of `$ARGUMENTS`
+If the user did not provide a task, tell them: "Usage: `/bg <task description>`" and stop.
 
-Then tell the user the agent has been launched.
+Otherwise, use the host's background-delegation capability. Give the worker the
+task from the user's request, only the context it needs, a clear deliverable,
+and a short 3-5 word label.
+
+Do not expand the worker's authority beyond the user's request. If the host
+cannot delegate work in the background, say so instead of silently switching
+to a foreground workflow.
+
+Then tell the user what was delegated and how the result will be returned.

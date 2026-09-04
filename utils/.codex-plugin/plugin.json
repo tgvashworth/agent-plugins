@@ -1,0 +1,27 @@
+{
+  "name": "u",
+  "version": "0.15.0",
+  "description": "Git, pull-request, writing, and collaboration workflows for software projects",
+  "author": {
+    "name": "Tom Ashworth",
+    "url": "https://tgvashworth.com"
+  },
+  "repository": "https://github.com/tgvashworth/agent-plugins",
+  "license": "MIT",
+  "keywords": ["git", "pull-requests", "writing", "utilities"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Utilities",
+    "shortDescription": "Practical git, PR, review, and writing workflows",
+    "longDescription": "Reusable workflows for committing and shipping changes, handling pull-request feedback, and improving technical writing.",
+    "developerName": "Tom Ashworth",
+    "category": "Developer Tools",
+    "capabilities": ["Skills"],
+    "websiteURL": "https://github.com/tgvashworth/agent-plugins",
+    "defaultPrompt": [
+      "Commit and open a pull request for this change.",
+      "Triage the feedback on my pull request.",
+      "Improve this document for a cold reader."
+    ]
+  }
+}

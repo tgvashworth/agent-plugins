@@ -30,7 +30,7 @@ resolve). Use **this** skill for *live* activity on a PR you're iterating on.
 
 ## Phase 0: Resolve the PR
 
-If `$ARGUMENTS` is a PR number or URL, use it. Otherwise detect the PR for the
+If the user's request includes a PR number or URL, use it. Otherwise detect the PR for the
 current branch:
 
 ```
@@ -45,7 +45,7 @@ Before watching for *new* activity, immediately surface what's **already** on
 the PR so you start from a complete picture. Run the `pr-comments` fetch script:
 
 ```
-${CLAUDE_PLUGIN_ROOT}/skills/pr-comments/scripts/fetch-pr-comments.sh <N> 2>&1
+../pr-comments/scripts/fetch-pr-comments.sh <N> 2>&1
 ```
 
 Triage anything actionable in the existing feedback right away using the same
@@ -57,30 +57,18 @@ phase is the one chance to catch what's already there.
 
 ## Phase 2: Kick off our own review
 
-Launch a **background** `Agent` that runs the built-in `/review` skill against
-the PR and reports its findings back. Its final message returns to this thread —
-nothing is posted to the PR.
+Launch a **background** worker using the host's delegation capability. Ask it to
+run the host's code-review skill against the PR, or review the diff directly if
+no such skill exists. Its final message returns to this thread; nothing is
+posted to the PR.
 
-```
-Agent(
-  subagent_type: "general-purpose",
-  run_in_background: true,
-  description: "Review PR #<N>",
-  prompt: "Run the /review skill against PR #<N> in this repo. Then do a
-           second pass over just the comments added or changed in the diff,
-           applying the comment-quality rules below. Report all findings back
-           as a concise list grouped by severity (blocking / should-fix /
-           nit), each with file:line and a one-line rationale.
+Tell the worker to do a second pass over comments added or changed in the diff,
+using the comment-quality rules below. Require a concise list grouped by
+severity (blocking / should-fix / nit), each with `file:line` and a one-line
+rationale. Repeat the read-only constraints in the worker prompt.
 
-           You are strictly read-only. Do not edit files, stage, commit,
-           push, check out branches, or run any state-changing git or gh
-           command. Do not post anything to the PR. Your only output is
-           the report you send back.
-
-           Comment-quality rules — flag any added/changed comment that:
-           <the three rules from 'Comment quality pass' below, verbatim>",
-)
-```
+If the host cannot delegate background work, perform the same read-only review
+before starting the watcher.
 
 ### Comment quality pass
 
@@ -106,21 +94,18 @@ findings in alongside incoming feedback when it returns.
 
 ## Phase 3: Start watching
 
-Start a **persistent** `Monitor` on the PR. The script seeds with the PR's
-current state (which you already reviewed in Phase 1), then streams one line per
-*new* CI failure or comment, and exits on merge/close.
+Run the watcher with the host's persistent or long-running process capability.
+The script seeds with the PR's current state (which you already reviewed in
+Phase 1), then streams one line per *new* CI failure or comment, and exits on
+merge/close.
 
 ```
-Monitor(
-  description: "PR #<N> — review + incoming feedback",
-  command: "${CLAUDE_PLUGIN_ROOT}/skills/review-agent/scripts/watch.sh <N>",
-  persistent: true,
-)
+scripts/watch.sh <N>
 ```
 
 Each event line ends with a comment/review URL. Bodies are truncated to 300
 chars — when you need the full text, call
-`${CLAUDE_PLUGIN_ROOT}/skills/review-agent/scripts/read-comment.sh <url>`.
+`scripts/read-comment.sh <url>`.
 
 ## Phase 4: Handle events as they land
 
@@ -161,7 +146,7 @@ recommend something just because a bot said it.
 
 ## Phase 6: Respond & resolve
 
-Once the owning session has pushed fixes, `/pr-respond` can reply to threads
+Once the owning session has pushed fixes, the `pr-respond` skill can reply to threads
 and resolve the addressed ones — it's bot-aware: terse, no pleasantries for bot
 accounts; courteous for humans. Only hand off to it on explicit instruction
 from the user; replying to threads is the one PR mutation in this loop, and it
@@ -197,8 +182,8 @@ when recent rounds have stopped earning their keep:
 |--------|-------|---------------|
 | ~1–2 | **weak** | Normal iteration. Handle events, keep the watcher running, no ceremony. |
 | ~3–4 | **moderate** | Be deliberate. Prefer to batch remaining items into one consolidated report rather than chase each new bot comment. Tell the user you're a few rounds deep and roughly what each round has been worth. |
-| ~5–7 | **strong** | Default to stopping. Do **not** kick off a fresh `/review`. Summarise everything across all rounds and recommend pausing for human input. Only start another round if there's a clear, high-value reason (a real CI break, a blocking human comment) — and state that reason explicitly before you do. |
-| ~8–10 | **hard stop** | Do not start another round, whatever softening the productive rounds bought you. Stop the watcher (end the persistent `Monitor`). Report a summary of every round and all outstanding items to the user, and wait for explicit human direction before doing anything else. |
+| ~5–7 | **strong** | Default to stopping. Do **not** kick off a fresh review. Summarise everything across all rounds and recommend pausing for human input. Only start another round if there's a clear, high-value reason (a real CI break, a blocking human comment) — and state that reason explicitly before you do. |
+| ~8–10 | **hard stop** | Do not start another round, whatever softening the productive rounds bought you. Stop the watcher process. Report a summary of every round and all outstanding items to the user, and wait for explicit human direction before doing anything else. |
 
 The round ranges are a guide, not a formula — a low-value round or two pushes you
 into the next row early, and a productive streak lets you hold a row a little
@@ -225,7 +210,9 @@ a new count from there.
 - **Use `read-comment.sh`** when the 300-char teaser cuts off the rationale.
 - **Tuning the watcher:** `scripts/watch.sh` has two allowlists at the top —
   `BOTS` (review bots whose comments are actionable) and `IGNORE_LOGINS`
-  (user-account automation to drop). Add new tools there.
+  (user-account automation to drop). Add new tools there. Each watcher uses an
+  isolated temporary state directory by default. Set `REVIEW_AGENT_STATE_DIR`
+  only to provide a directory dedicated to that single watcher.
 - **For a one-off snapshot** with no ongoing watch, use `pr-comments` (or
   `gh api`) directly. This skill checks existing feedback once on start, then
   stays running for *new* activity.

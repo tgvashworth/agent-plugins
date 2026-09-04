@@ -321,4 +321,4 @@ Before finalizing meta-analysis:
 ## Additional Resources
 
 For meta-analysis patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.12
+- **`../../references/playbook-pattern.md`** - Section 4.12

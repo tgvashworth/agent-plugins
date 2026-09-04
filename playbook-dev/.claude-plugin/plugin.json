@@ -1,6 +1,6 @@
 {
   "name": "playbook-dev",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Create structured, multi-stage analysis playbooks for LLM-driven workflows",
   "author": {
     "name": "Tom Ashworth",

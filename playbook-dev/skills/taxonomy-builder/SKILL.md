@@ -223,4 +223,4 @@ Before finalizing taxonomy:
 ## Additional Resources
 
 For taxonomy best practices:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.8
+- **`../../references/playbook-pattern.md`** - Section 4.8

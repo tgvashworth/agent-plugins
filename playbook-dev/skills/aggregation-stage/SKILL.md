@@ -293,4 +293,4 @@ Priority Score = (Items × Improvement) / (Effort × Risk)
 ## Additional Resources
 
 For complete aggregation patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 5: Stage 2
+- **`../../references/playbook-pattern.md`** - Section 5: Stage 2

@@ -326,4 +326,4 @@ Before finalizing gates:
 ## Additional Resources
 
 For quality gate patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 2.5
+- **`../../references/playbook-pattern.md`** - Section 2.5

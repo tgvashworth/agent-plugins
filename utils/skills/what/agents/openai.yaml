@@ -1,0 +1,5 @@
+interface:
+  display_name: What?
+  short_description: Restate the previous response in plain English
+policy:
+  allow_implicit_invocation: false

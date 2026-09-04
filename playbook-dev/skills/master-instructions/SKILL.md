@@ -256,4 +256,4 @@ Specify what each agent receives and produces:
 ## Additional Resources
 
 For complete orchestration patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Sections 4-5
+- **`../../references/playbook-pattern.md`** - Sections 4-5

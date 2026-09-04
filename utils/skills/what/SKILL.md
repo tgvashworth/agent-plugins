@@ -6,10 +6,13 @@ description: >
   /what, or says they don't understand what you just said and wants it
   rewritten more clearly.
 argument-hint: "[what specifically was unclear]"
-disable-model-invocation: true
 ---
 
 # What
+
+Only apply this workflow when the user explicitly invokes it or directly asks
+for the previous response to be explained again. If it was selected implicitly,
+do not replace the previous response.
 
 The reader did not understand your last message. Explain it again, from scratch.
 
@@ -43,7 +46,7 @@ a rewrite of something you already said.
 
 ## Instructions
 
-If `$ARGUMENTS` names a specific part that was unclear, focus the explanation
+If the user names a specific part that was unclear, focus the explanation
 there. Otherwise re-explain the whole of your previous message.
 
 Then write the explanation. Nothing else — no preamble apologising for the

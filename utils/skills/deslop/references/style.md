@@ -169,7 +169,7 @@ else. It earns its place only by saying what the code cannot.
 ### Commit messages
 
 Follow the repo's own conventions first. Where the repo has none, use the
-format in `utils/templates/common.md`: a short imperative subject saying what
+format in [the packaged commit guidance](../../../templates/common.md): a short imperative subject saying what
 changed, then optional bullets with the detail, then optional next steps.
 
 - Subject ≤ ~65 characters, imperative, no trailing full stop, no type prefix
@@ -181,7 +181,7 @@ changed, then optional bullets with the detail, then optional next steps.
 
 ### PR titles and bodies
 
-Follow `utils/templates/pr-body.md`: two-pass drafting (capture the change,
+Follow [the packaged PR guidance](../../../templates/pr-body.md): two-pass drafting (capture the change,
 then rewrite for a stranger), summary bullets, test plan, issue links. The
 body must stand alone for a reader with no context: state the problem, then
 the change. Strip iteration history and review back-and-forth.

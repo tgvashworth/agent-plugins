@@ -19,11 +19,11 @@ interpolation variables, or behaviour.
 
 Read the rules first — they are the authority for every judgement below:
 
-`${CLAUDE_PLUGIN_ROOT}/skills/deslop/references/style.md`
+`references/style.md`
 
 ## Phase 0: Resolve the target
 
-Work out what `$ARGUMENTS` points at. Pick the first match:
+Work out what the user's requested target points at. Pick the first match:
 
 | Argument | Target | Scope |
 |----------|--------|-------|
@@ -41,9 +41,10 @@ If the argument is ambiguous (a bare number could be a PR or a ticket), check
 Load the target's conventions alongside the style rules:
 
 - Commit messages: the repo's own style from `git log`, then
-  `${CLAUDE_PLUGIN_ROOT}/templates/common.md`.
-- PRs: `${CLAUDE_PLUGIN_ROOT}/templates/pr-body.md`.
-- Copy: the repo's glossary, style guide, or CLAUDE.md if one names terms.
+  `../../templates/common.md`.
+- PRs: `../../templates/pr-body.md`.
+- Copy: the repo's glossary, style guide, or applicable agent instructions if
+  one names terms.
 
 ## Phase 1: Collect
 

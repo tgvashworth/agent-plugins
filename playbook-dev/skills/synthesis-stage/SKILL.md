@@ -261,4 +261,4 @@ After Change Impact Analysis, enrich:
 ## Additional Resources
 
 For complete synthesis patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 5: Stage 3
+- **`../../references/playbook-pattern.md`** - Section 5: Stage 3

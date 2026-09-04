@@ -291,4 +291,4 @@ Before finalizing enrichment design:
 ## Additional Resources
 
 For enrichment patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 2.6
+- **`../../references/playbook-pattern.md`** - Section 2.6

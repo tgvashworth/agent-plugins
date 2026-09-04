@@ -209,4 +209,4 @@ After scaffolding, verify:
 ## Additional Resources
 
 For complete directory structure patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 3: Architecture
+- **`../../references/playbook-pattern.md`** - Section 3: Architecture
