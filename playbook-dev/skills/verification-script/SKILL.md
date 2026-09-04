@@ -346,4 +346,4 @@ Before finalizing script:
 ## Additional Resources
 
 For verification patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.13
+- **`../../references/playbook-pattern.md`** - Section 4.13

@@ -4,11 +4,11 @@
 # Codex, etc.) AND humans.
 #
 # Each event is emitted as a single stdout line, designed to be consumed by
-# Claude Code's Monitor tool. The script seeds itself with the current state
+# an agent host's long-running process support. The script seeds itself with the current state
 # on startup, then emits only *new* events from then on. It exits on PR
 # merge/close.
 #
-# Comment authorship is classified into three buckets so Claude can treat them
+# Comment authorship is classified into three buckets so the caller can treat them
 # differently (see SKILL.md):
 #   - bots on the BOTS allowlist  → COMMENT / REVIEW-COMMENT / REVIEW       (actionable)
 #   - the PR author (self-review) → *-SELF  (actionable: act on your own notes)
@@ -19,7 +19,7 @@
 #
 # CI checks are noisy, so we only emit *failures / cancellations* plus a single
 # "all checks passed" line once everything resolves. Successes and pending/
-# running transitions are dropped before they ever reach Claude.
+# running transitions are dropped before they ever reach the caller.
 #
 # Usage: watch.sh <pr-number> [poll-seconds]
 
@@ -65,7 +65,7 @@ fi
 # comments (*-HUMAN). Empty if the lookup fails; humans then all read as -HUMAN.
 PR_AUTHOR="$(gh pr view "$PR" --json author -q .author.login 2>/dev/null || echo "")"
 
-STATE_DIR="${CLAUDE_JOB_DIR:-/tmp}/review-agent-watch-${REPO//\//-}-${PR}"
+STATE_DIR="${REVIEW_AGENT_STATE_DIR:-${TMPDIR:-/tmp}}/review-agent-watch-${REPO//\//-}-${PR}"
 mkdir -p "$STATE_DIR"
 checks_state="$STATE_DIR/checks.json"
 allgreen_flag="$STATE_DIR/all-green"        # present once we've emitted "all passed"

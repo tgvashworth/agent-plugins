@@ -247,4 +247,4 @@ Cross-validate numbers:
 ## Additional Resources
 
 For complete finalization patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 5: Stage 4
+- **`../../references/playbook-pattern.md`** - Section 5: Stage 4

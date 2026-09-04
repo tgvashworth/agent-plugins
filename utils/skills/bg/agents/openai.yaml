@@ -1,0 +1,5 @@
+interface:
+  display_name: Background Agent
+  short_description: Delegate an explicitly requested task in the background
+policy:
+  allow_implicit_invocation: false

@@ -16,7 +16,9 @@ Your job is to review it, decide what is correct and worth implementing, and act
 
 Run the pr-comments fetch script to get all PR comments, reviews, and review threads.
 
-!`${CLAUDE_PLUGIN_ROOT}/skills/pr-comments/scripts/fetch-pr-comments.sh $ARGUMENTS 2>&1`
+Run `../pr-comments/scripts/fetch-pr-comments.sh`, relative to this skill
+directory. Pass the PR number or URL from the user's request when one is
+provided.
 
 ## Phase 2: Triage
 
@@ -35,7 +37,8 @@ Present the triage as a table so the user can review your reasoning before you s
 
 - **Bug fixes and correctness issues** — almost always Implement.
 - **Security concerns** — always Implement unless clearly a false positive.
-- **Style nits** — Implement if they match project conventions (check CLAUDE.md),
+- **Style nits** — Implement if they match project conventions (check the
+  applicable repository agent instructions),
   otherwise Acknowledge.
 - **Suggestions to add features or scope** — usually Acknowledge (out of scope for this PR).
 - **Copilot auto-review comments** — evaluate on merit like any other review. Copilot can be wrong;
@@ -59,7 +62,7 @@ After user approval:
 
 1. Work through the todo list, marking items as you go
 2. For each change, read the relevant source file first
-3. Follow project conventions (check CLAUDE.md for project-specific commands)
+3. Follow project conventions in the applicable repository agent instructions
 
 ## Phase 5: Summary
 
@@ -68,4 +71,4 @@ After implementation:
 1. Summarise what was changed and why
 2. List any feedback items you deliberately did not implement and the reason
 3. Ask if the user wants to respond to reviewers and resolve threads — if yes,
-   hand off to `/pr-respond`
+   hand off to the `pr-respond` skill

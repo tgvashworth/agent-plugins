@@ -1,0 +1,32 @@
+{
+  "name": "tgvashworth-agent-plugins",
+  "interface": {
+    "displayName": "Tom's Agent Plugins"
+  },
+  "plugins": [
+    {
+      "name": "playbook-dev",
+      "source": {
+        "source": "local",
+        "path": "./playbook-dev"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "u",
+      "source": {
+        "source": "local",
+        "path": "./utils"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

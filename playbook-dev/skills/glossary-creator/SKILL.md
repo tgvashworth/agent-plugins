@@ -268,4 +268,4 @@ Before finalizing glossary:
 ## Additional Resources
 
 For glossary best practices:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.2
+- **`../../references/playbook-pattern.md`** - Section 4.2

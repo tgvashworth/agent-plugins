@@ -1,6 +1,8 @@
 # playbook-dev
 
-A Claude Code plugin for creating structured, multi-stage analysis playbooks that guide LLM agents through complex analytical workflows.
+An Agent Skills plugin for creating structured, multi-stage analysis playbooks
+that guide LLM agents through complex analytical workflows. It is packaged for
+both Claude Code and Codex.
 
 ## What is a Playbook?
 
@@ -58,6 +60,10 @@ The `playbook-validator` agent automatically checks your playbook at key milesto
 # Or invoke skills directly as you build
 # Claude will activate relevant skills based on context
 ```
+
+In Codex, ask naturally or invoke `$playbook-wizard`. The
+`$playbook-validator` skill provides the same validation workflow as the Claude
+subagent adapter.
 
 ## Playbook Structure
 

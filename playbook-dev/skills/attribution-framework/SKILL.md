@@ -326,4 +326,4 @@ Before finalizing attribution:
 ## Additional Resources
 
 For attribution patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.10
+- **`../../references/playbook-pattern.md`** - Section 4.10

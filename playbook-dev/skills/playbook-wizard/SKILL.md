@@ -38,7 +38,8 @@ Understand the analysis domain and goals:
    - What domain expertise should be encoded?
    - What reference materials are available?
 
-Ask clarifying questions using AskUserQuestion to understand the domain before proceeding.
+Ask clarifying questions using the host's available interaction mechanism to
+understand the domain before proceeding.
 
 ### Phase 2: Structure Design
 
@@ -145,7 +146,7 @@ Recommended: 15-25 concurrent agents depending on system resources.
 
 ## Progress Tracking
 
-Use TodoWrite throughout to track:
+Use the host's available progress-tracking mechanism to track:
 - [ ] Phase 1: Discovery complete
 - [ ] Phase 2: Structure created
 - [ ] Phase 3: All stages defined
@@ -178,6 +179,6 @@ Playbooks work well for:
 ## Additional Resources
 
 For the complete playbook pattern specification:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Full pattern documentation
+- **`../../references/playbook-pattern.md`** - Full pattern documentation
 
 For real-world implementation examples, ask the user if they have existing playbooks to reference.

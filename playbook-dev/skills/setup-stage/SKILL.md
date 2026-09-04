@@ -283,4 +283,4 @@ Skip checks based on configuration:
 ## Additional Resources
 
 For complete setup stage patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 5: Stage 0
+- **`../../references/playbook-pattern.md`** - Section 5: Stage 0

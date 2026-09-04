@@ -285,4 +285,4 @@ Specify exact files to read and write:
 ## Additional Resources
 
 For complete stage document examples:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4
+- **`../../references/playbook-pattern.md`** - Section 4

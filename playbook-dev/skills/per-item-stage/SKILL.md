@@ -281,4 +281,4 @@ After Stage 1, verify completion:
 ## Additional Resources
 
 For complete per-item stage patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 5: Stage 1
+- **`../../references/playbook-pattern.md`** - Section 5: Stage 1

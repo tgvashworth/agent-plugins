@@ -22,7 +22,7 @@ and hand it over.
 
 ## Phase 0: Resolve the PR
 
-If `$ARGUMENTS` is a PR number or URL, use it. Otherwise detect the PR for the
+If the user's request includes a PR number or URL, use it. Otherwise detect the PR for the
 current branch:
 
 ```
@@ -66,7 +66,7 @@ that still applies, a genuine caveat). Everything else gets rewritten.
 
 Read the PR writing guide and follow it:
 
-`${CLAUDE_PLUGIN_ROOT}/templates/pr-body.md`
+`../../templates/pr-body.md`
 
 It covers writing the title, finding related issues, the two-pass drafting
 method, the format, and the issue-linking rules. Follow it exactly — including

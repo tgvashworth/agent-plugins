@@ -6,7 +6,6 @@ description: >
   /what, or says they don't understand what you just said and wants it
   rewritten more clearly.
 argument-hint: "[what specifically was unclear]"
-disable-model-invocation: true
 ---
 
 # What
@@ -43,7 +42,7 @@ a rewrite of something you already said.
 
 ## Instructions
 
-If `$ARGUMENTS` names a specific part that was unclear, focus the explanation
+If the user names a specific part that was unclear, focus the explanation
 there. Otherwise re-explain the whole of your previous message.
 
 Then write the explanation. Nothing else — no preamble apologising for the

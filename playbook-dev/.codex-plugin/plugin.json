@@ -1,0 +1,26 @@
+{
+  "name": "playbook-dev",
+  "version": "0.2.0",
+  "description": "Create structured, multi-stage analysis playbooks for agent workflows",
+  "author": {
+    "name": "Tom Ashworth",
+    "url": "https://tgvashworth.com"
+  },
+  "repository": "https://github.com/tgvashworth/agent-plugins",
+  "license": "MIT",
+  "keywords": ["playbook", "analysis", "workflow", "agents"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Playbook Development",
+    "shortDescription": "Design structured multi-stage analysis playbooks",
+    "longDescription": "Guided skills for scaffolding, documenting, validating, and refining multi-stage analysis workflows for agents.",
+    "developerName": "Tom Ashworth",
+    "category": "Developer Tools",
+    "capabilities": ["Skills"],
+    "websiteURL": "https://github.com/tgvashworth/agent-plugins",
+    "defaultPrompt": [
+      "Create a multi-stage analysis playbook.",
+      "Validate the playbook in this repository."
+    ]
+  }
+}

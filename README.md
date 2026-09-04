@@ -1,8 +1,11 @@
 # Agent plugins
 
-A collection of plugins for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+A collection of Agent Skills packaged as plugins for
+[Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Codex.
 
 ## Installation
+
+### Claude Code
 
 This repo is a [Claude Code plugin marketplace](https://docs.anthropic.com/en/docs/claude-code/plugins). From within Claude Code, add the marketplace and then install the plugins you want:
 
@@ -13,6 +16,25 @@ This repo is a [Claude Code plugin marketplace](https://docs.anthropic.com/en/do
 ```
 
 Or run `/plugin` to open the interactive plugin manager and browse available plugins.
+
+### Codex
+
+Add this repository as a Codex marketplace:
+
+```bash
+codex plugin marketplace add tgvashworth/agent-plugins
+```
+
+Then start Codex, run `/plugins`, and install `u`, `playbook-dev`, or both.
+Start a new session after installation. Use natural-language requests or select
+a skill explicitly with `$`, for example `$git-ship` or `$playbook-wizard`.
+
+### Other Agent Skills hosts
+
+The reusable workflows live in each plugin's `skills/` directory and avoid
+host-specific command interpolation. Point an Agent Skills-compatible host at
+that directory while preserving the plugin's relative file layout. Invocation
+syntax and available tools remain host-specific.
 
 ## Plugins
 

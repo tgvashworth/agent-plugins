@@ -323,4 +323,4 @@ Before finalizing template:
 ## Additional Resources
 
 For template design patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.3
+- **`../../references/playbook-pattern.md`** - Section 4.3

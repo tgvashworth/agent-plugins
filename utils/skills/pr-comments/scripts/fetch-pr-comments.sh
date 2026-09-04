@@ -25,7 +25,7 @@ resolve_repo() {
     fi
 
     # Fall back to parsing the git remote URL (handles proxy-based remotes
-    # like Claude Code on the web, SSH, HTTPS, and ssh:// formats).
+    # hosted agents, SSH, HTTPS, and ssh:// formats).
     local remote_url
     remote_url=$(git remote get-url origin 2>/dev/null) || {
         echo "ERROR: Could not determine repository (gh repo view failed and no git remote found)." >&2

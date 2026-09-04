@@ -1,4 +1,5 @@
 ---
+name: pr-comments
 description: |
   Fetch all PR comments, reviews, and review threads in a single GraphQL call.
   Use when you need to check PR feedback, address review comments, see review
@@ -16,7 +17,8 @@ Uses a single GraphQL query via `scripts/fetch-pr-comments.sh` in this skill's d
 Run the script, passing an optional PR number or URL. If omitted, it detects the
 PR from the current branch.
 
-!`${CLAUDE_PLUGIN_ROOT}/skills/pr-comments/scripts/fetch-pr-comments.sh $ARGUMENTS 2>&1`
+Run `scripts/fetch-pr-comments.sh`, relative to this skill directory. Pass the
+PR number or URL from the user's request when one is provided.
 
 ## Presenting results
 

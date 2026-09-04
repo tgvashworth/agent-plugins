@@ -259,4 +259,4 @@ Before finalizing:
 ## Additional Resources
 
 For architecture documentation patterns:
-- **`${CLAUDE_PLUGIN_ROOT}/references/playbook-pattern.md`** - Section 4.2
+- **`../../references/playbook-pattern.md`** - Section 4.2

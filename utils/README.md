@@ -1,6 +1,8 @@
 # Utils
 
-`/u`: useful Claude commands.
+`/u`: useful Claude commands, with the same workflows available as Agent Skills
+for Codex and other compatible hosts. In Codex, ask naturally or explicitly use
+skills such as `$git-ship`, `$task-context`, or `$pr-feedback`.
 
 ## Commands
 
@@ -156,7 +158,8 @@ Write or improve a substantial document through a structured process: fix the go
 
 ## Installation
 
-Copy this plugin to your Claude Code plugins directory or install via the marketplace.
+Install it from the repository's Claude Code or Codex marketplace. Other Agent
+Skills hosts can load the `skills/` directory directly.
 
 ## Requirements
 

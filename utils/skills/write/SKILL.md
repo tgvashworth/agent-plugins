@@ -19,11 +19,11 @@ phases (goals, audience, structure) are what make the writing land, and getting
 them wrong wastes the whole draft.
 
 Apply the writing guidelines throughout:
-`${CLAUDE_PLUGIN_ROOT}/skills/write/references/writing-guidelines.md`
+`references/writing-guidelines.md`
 
 ## Before you start
 
-Work out what you're writing from `$ARGUMENTS` and the conversation:
+Work out what you're writing from the user's request and the conversation:
 
 - **A file path** → an existing draft to improve. Read it first.
 - **A topic or guidance** → a new document to create.
@@ -123,10 +123,10 @@ Produce the full draft. Save it to the agreed destination.
 
 ## Phase 6: Review — cold read
 
-Hand the draft to a sub-agent for a fresh, standalone read. Launch an `Agent`
-(`general-purpose`, synchronous) with the draft and the **audience description
-only** — not the goals or the outline, so the reviewer comes to it as a reader
-would.
+Hand the draft to an independent worker for a fresh, standalone read when the
+host supports delegation. Otherwise perform a separate cold-read pass yourself.
+Provide the draft and the **audience description only** — not the goals or the
+outline, so the reviewer comes to it as a reader would.
 
 Prompt it with:
 
@@ -142,14 +142,14 @@ Prompt it with:
 
 ## Phase 7: Review — style and LLM-isms
 
-Hand the same draft to a second sub-agent for a style pass. Launch it in the
-**same message** as Phase 6 so both run at once. Give it the draft and the
-guidelines file.
+Hand the same draft to a second independent worker for a style pass. Launch it
+in parallel with Phase 6 when the host supports that; otherwise perform the
+style pass separately. Give it the draft and the guidelines file.
 
 Prompt it with:
 
 > You are a style editor. Review this document against the writing guidelines
-> at `${CLAUDE_PLUGIN_ROOT}/skills/write/references/writing-guidelines.md` —
+> at `references/writing-guidelines.md` —
 > read that file first. Here is the document: [paste the draft].
 >
 > Flag every LLM-ism and style problem with a specific, quotable fix:

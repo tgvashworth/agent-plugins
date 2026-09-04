@@ -15,7 +15,9 @@ Reply to PR review comments and resolve threads after addressing feedback.
 
 Run the pr-comments fetch script to get all PR comments, reviews, and review threads.
 
-!`${CLAUDE_PLUGIN_ROOT}/skills/pr-comments/scripts/fetch-pr-comments.sh $ARGUMENTS 2>&1`
+Run `../pr-comments/scripts/fetch-pr-comments.sh`, relative to this skill
+directory. Pass the PR number or URL from the user's request when one is
+provided.
 
 ## Phase 2: Identify actionable threads
 
