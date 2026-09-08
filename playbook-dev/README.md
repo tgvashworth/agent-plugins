@@ -15,7 +15,7 @@ A playbook is an **executable specification** encoded as markdown documents that
 ## Features
 
 ### Guided Creation
-Use `/playbook-dev:create` to walk through the full playbook creation process with interactive guidance.
+Use `/playbook-dev:create` (or `$create` in Codex) to walk through the full playbook creation process with interactive guidance.
 
 ### Skills by Category
 

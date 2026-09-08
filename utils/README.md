@@ -1,10 +1,11 @@
 # Utils
 
-`/u`: useful Claude commands, with the same workflows available as Agent Skills
-for Codex and other compatible hosts. In Codex, ask naturally or explicitly use
-skills such as `$git-ship`, `$task-context`, or `$pr-feedback`.
+`/u`: useful Agent Skills for Claude Code, Codex, and other compatible hosts.
+Every workflow is a skill under `skills/`, so each host sees the same set. In
+Claude Code invoke one with `/u:<name>`; in Codex, ask naturally or use
+`$<name>`, such as `$commit-push-pr`, `$context`, or `$pr-feedback`.
 
-## Commands
+## Skills
 
 ### `/context [guidance]`
 
@@ -174,4 +175,4 @@ Skills hosts can load the `skills/` directory directly.
 ## Requirements
 
 - Git
-- GitHub CLI (`gh`) for PR commands
+- GitHub CLI (`gh`) for the PR skills
