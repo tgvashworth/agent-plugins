@@ -27,7 +27,7 @@ codex plugin marketplace add tgvashworth/agent-plugins
 
 Then start Codex, run `/plugins`, and install `u`, `playbook-dev`, or both.
 Start a new session after installation. Use natural-language requests or select
-a skill explicitly with `$`, for example `$git-ship` or `$playbook-wizard`.
+a skill explicitly with `$`, for example `$commit-push-pr` or `$playbook-wizard`.
 
 ### Other Agent Skills hosts
 
@@ -44,7 +44,7 @@ Create structured, multi-stage analysis playbooks for LLM-driven workflows. Use 
 
 ### utils (installed as `u`)
 
-A grab-bag of useful commands:
+A grab-bag of useful skills, invoked with `/u:<name>` in Claude Code or `$<name>` in Codex:
 
 - `/u:context` — get up to speed on a task, ticket, or branch
 - `/u:commit` — create a commit with an auto-generated message
@@ -65,7 +65,7 @@ A grab-bag of useful commands:
 
 ### Setting commit and PR title style per repo
 
-The commit and PR commands infer house style from recent commits, which works
+The commit and PR skills infer house style from recent commits, which works
 until the log drifts — then each new title copies the last, and the drift
 compounds.
 
@@ -75,7 +75,7 @@ log is not read for phrasing at all, so a polluted log stops propagating. Put
 the house rules in it, and worked before/after examples if the repo has a
 failure mode worth naming.
 
-With no such file the commands fall back to sampling the log, but check what
+With no such file the skills fall back to sampling the log, but check what
 they find against their built-in title test first, rather than copying it blind.
 
 ## Cookbook

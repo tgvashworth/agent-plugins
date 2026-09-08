@@ -1,10 +1,10 @@
 # Agent plugin repository
 
-This repository packages reusable Agent Skills for multiple hosts. The bodies
-under each plugin's `skills/` directory are the portable workflows; existing
-Claude commands and agents remain supported interfaces in their own right.
-The `.claude-plugin/`, `commands/`, `agents/`, and `CLAUDE.md` files retain the
-existing Claude integration. `.codex-plugin/`, `AGENTS.md`, and
+This repository packages reusable Agent Skills for multiple hosts. Every
+workflow lives under a plugin's `skills/` directory so that each host sees the
+same set; there is no separate `commands/` directory. Claude Code invokes a
+skill as `/<plugin>:<name>`, Codex as `$<name>`. The `.claude-plugin/`,
+`agents/`, and `CLAUDE.md` files retain the existing Claude integration. `.codex-plugin/`, `AGENTS.md`, and
 `.agents/plugins/marketplace.json` provide Codex packaging and discovery.
 
 ## Layout
@@ -28,7 +28,7 @@ existing Claude integration. `.codex-plugin/`, `AGENTS.md`, and
 - Preserve established trigger phrases in descriptions unless the task is
   explicitly about changing discovery behavior.
 - Treat compatibility work as compatibility work. Do not rewrite descriptions,
-  workflows, commands, or agent definitions unless their existing syntax
+  workflows, or agent definitions unless their existing syntax
   prevents the target host from using them.
 - Keep Claude and Codex manifest versions in sync. Use a patch bump for fixes
   and documentation, and a minor bump for new skills or capabilities.
