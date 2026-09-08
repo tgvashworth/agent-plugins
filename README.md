@@ -61,6 +61,7 @@ A grab-bag of useful commands:
 - `/u:what` — re-explain the last message in plain English when it didn't land
 - `/u:deslop` — plain-English pass over comments, copy, commit messages, PRs, or tickets
 - `/u:bg` — run a task in a background agent
+- `/u:slack` — write a Slack message from the session: bare text to `/copy`, a draft, or sent
 
 ### Setting commit and PR title style per repo
 
@@ -116,6 +117,13 @@ These skills are built to work together. The combinations that I find useful:
 ```
 /u:tourguide this updated auth architecture
 /u:write this up
+```
+
+**Tell Slack.** Turn the last piece of work into a Slack message. The reply is the bare message, so `/copy` grabs it and it pastes cleanly into the composer — or, with a recipient, it lands as a draft in your Slack drafts:
+
+```
+/u:slack
+/u:slack draft to Pete: migration is done, needs a sign-off on the flag
 ```
 
 **Park a draft, then send it.** `/u:ready-for-review` rebuilds the description from the branch as it now stands, so a draft body written mid-work doesn't reach reviewers:

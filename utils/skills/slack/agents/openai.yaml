@@ -1,0 +1,5 @@
+interface:
+  display_name: Slack message
+  short_description: Write a Slack message from the session to copy, draft, or send
+policy:
+  allow_implicit_invocation: false
