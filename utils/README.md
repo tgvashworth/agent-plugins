@@ -137,6 +137,16 @@ Rewrite words for one-pass comprehension — code comments, user-facing copy, co
 /deslop "Oops! Something went wrong. Please try again later!"
 ```
 
+### `/slack [draft|send] [to <person or #channel>] [what to say]`
+
+Write a Slack message from what the session just did. By default the reply is the bare message, nothing else, so `/copy` grabs it and it pastes cleanly into Slack's composer. Say `draft` or `send` with a recipient to go through the Slack tool instead. The message is written in whichever Slack formatting dialect matches the delivery path; the rules, verified by round-tripping real messages, are in `skills/slack/references/slack-formatting.md`.
+
+**Example:**
+```bash
+/slack
+/slack draft to Pete: migration is done, needs a sign-off on the flag
+```
+
 ### `/write [topic, draft file path, or guidance]`
 
 Write or improve a substantial document through a structured process: fix the goals, outline the key points, map the audience, design the structure, draft it, then run two independent review passes (a cold-read for clarity and a style pass for LLM-isms and British English).
