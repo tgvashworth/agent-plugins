@@ -66,6 +66,22 @@ a product's established voice) say otherwise.
 
 The failure modes of "clever" writing. Each earns a rewrite.
 
+**Mannered prose.** Metaphor and flourish in place of direct statement. The
+mannered writer produces "a dial worth turning" instead of "a parameter worth
+varying", and "this point earns its keep" instead of "this point still
+matters". The phrases exist to display the writer, not to convey the idea, and
+readers can tell. That is why mannered prose irritates: it makes the reader
+work harder so the writer can perform. It is also imprecise. A metaphor drags
+in connotations the writer did not choose and cannot control. The fix is to
+say what you mean. When a literal phrase is available, use it.
+
+| Wrong | Right |
+| --- | --- |
+| A dial worth turning. | A parameter worth varying. |
+| This point earns its keep. | This point still matters. |
+| The cache is the beating heart of the service. | Every request reads from the cache. |
+| We are flying blind on retries. | We do not log retries. |
+
 **Personification.** The app, a setting, a number, a list, or code never asks,
 knows, refuses, wants, or decides. Say what happens or what the reader can do.
 

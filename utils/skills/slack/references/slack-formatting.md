@@ -166,6 +166,10 @@ first. To DM someone, use their user ID as the channel ID.
   reporting to a manager.
 - Names of things the reader can search for (ticket keys, flag names, PR
   numbers) beat descriptions of them.
+- Say what you mean. No metaphor or flourish where a literal phrase exists:
+  "the flag cannot be toggled per-org", not "the flag is a blunt instrument".
+  A figure of speech makes the reader translate and carries connotations you
+  did not choose.
 
 ## How to re-verify these rules
 
