@@ -57,6 +57,10 @@ never seen this change should be able to guess which files it touches.
 - Under 72 characters where you can.
 - Plain, natural English is right; vagueness is not. "stop the equipment admin
   page rebuilding its dropdowns per row" is both natural and specific.
+- **Say what you mean, literally.** No metaphor or flourish in the subject or
+  body: "reduce the retry limit", not "tame the retry storm". A figure of
+  speech makes the reader translate and carries connotations you did not
+  choose. When a literal phrase is available, use it.
 
 ### Where house style comes from
 

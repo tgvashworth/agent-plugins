@@ -113,8 +113,8 @@ Slot the Phase 2 bullets into the Phase 4 structure and write each section:
 
 - Restructure the bullets into flowing prose — do not just paste the list.
 - Front-load each section, paragraph, and sentence with its point.
-- Add the colour that makes each point real: the example, the number, the
-  reason, the consequence.
+- Add what makes each point real: the example, the number, the reason, the
+  consequence. Not metaphor. When a literal phrase is available, use it.
 - Link the sections so the document reads as one argument, not a stack of notes.
 - Follow the writing guidelines as you go — short common words, active voice,
   sentences ≤ ~25 words.
@@ -153,6 +153,9 @@ Prompt it with:
 > read that file first. Here is the document: [paste the draft].
 >
 > Flag every LLM-ism and style problem with a specific, quotable fix:
+> - Mannered prose: metaphor or flourish where a literal phrase exists ("a
+>   dial worth turning" for "a parameter worth varying"). Give the literal
+>   phrase.
 > - False antithesis ("It's not X, it's Y", "not only… but also").
 > - Staccato triads and rule-of-three padding.
 > - Em-dash overuse, filler, hedging, and inflated verbs.

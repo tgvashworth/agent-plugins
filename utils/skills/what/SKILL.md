@@ -35,6 +35,11 @@ use — only the things *you* introduced: names, concepts, or shorthand from
 your own work that they never engaged with. Don't burn words explaining what
 they obviously know.
 
+**Say what you mean.** No metaphor or flourish where a literal phrase exists.
+"A dial worth turning" makes the reader translate; "a parameter worth varying"
+does not. Figures of speech also carry connotations you did not choose, and a
+reader who already missed the point once cannot afford them.
+
 **Lead with the bottom line.** First sentence says the thing that matters —
 what happened, what you found, or what you need from them. Details after.
 

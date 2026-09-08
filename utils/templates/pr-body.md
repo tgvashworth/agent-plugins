@@ -31,6 +31,10 @@ never seen this change should be able to guess which files it touches.
 - Under 72 characters where you can.
 - Plain, natural English is right; vagueness is not. "stop the equipment admin
   page rebuilding its dropdowns per row" is both natural and specific.
+- **Say what you mean, literally.** No metaphor or flourish in the title or
+  body: "reduce the retry limit", not "tame the retry storm". A figure of
+  speech makes the reader translate and carries connotations you did not
+  choose. When a literal phrase is available, use it.
 
 ### Where house style comes from
 
@@ -77,7 +81,7 @@ and ignore the existing body rather than lightly editing it.
   with enough context to understand it cold. Strip out any references to
   development-discussion internals (review back-and-forth, "as discussed",
   earlier attempts, iteration history); describe the end result, not how you
-  got there. Refer to files by their repo-relative path only — never
+  got there. Use literal statements, not metaphor or flourish. Refer to files by their repo-relative path only — never
   machine-local or home-directory paths (see "Referring to files" in
   `common.md`).
 

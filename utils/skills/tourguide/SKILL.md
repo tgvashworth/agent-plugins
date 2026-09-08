@@ -34,6 +34,10 @@ So:
 - Do not assume context. Give each point the background it needs to stand up.
 - Avoid jargon. Plain language wins. If a technical term, internal name, or
   acronym is unavoidable, define it in a few words on first use.
+- Say what you mean. No metaphor or flourish where a literal phrase exists:
+  "this function is called on every request", not "this function is the hot
+  path's beating heart". A figure of speech makes the listener translate and
+  carries connotations you did not choose.
 - Lead with what a reviewer cares about: what changed, why, and what it affects
   or risks — not a line-by-line reading of the diff.
 
