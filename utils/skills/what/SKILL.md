@@ -31,14 +31,14 @@ then explain the point itself.
 technical terms, internal names, and acronyms, make a judgement call: assume
 the reader knows anything they've used in their own messages, and reasonable
 professional background beyond this session. Define — in a few words, first
-use — only the things *you* introduced: names, concepts, or shorthand from
+use — only the things _you_ introduced: names, concepts, or shorthand from
 your own work that they never engaged with. Don't burn words explaining what
 they obviously know.
 
-**Say what you mean.** No metaphor or flourish where a literal phrase exists.
-"A dial worth turning" makes the reader translate; "a parameter worth varying"
-does not. Figures of speech also carry connotations you did not choose, and a
-reader who already missed the point once cannot afford them.
+Plain language helps the reader understand on the first reading. Familiar words
+and concrete details make the meaning clear. If a reader has already
+misunderstood, explain the point again in simpler terms. Say what changes, why
+it matters, and what the reader needs to know.
 
 **Lead with the bottom line.** First sentence says the thing that matters —
 what happened, what you found, or what you need from them. Details after.
