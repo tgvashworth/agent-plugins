@@ -119,9 +119,9 @@ Walk through code changes or a plan in a logical, grouped sequence — one group
 Run a fast, adaptive check of your understanding of the current change. It
 asks one evidence-backed question at a time, focuses on load-bearing decisions
 in the diff, and keeps a private per-repository learning ledger so later
-sessions build on what you have already covered. The default is three to four
-questions; `--deep` asks five. Use `--focus design`, `--focus conventions`, or
-`--focus behaviour` to concentrate on one aspect of the change.
+sessions build on what you have already covered. It normally asks three to four
+questions; `--deep` allows up to five. Use `--focus` with `design`,
+`conventions`, or `behaviour` to concentrate on one aspect of the change.
 
 **Example:**
 ```bash

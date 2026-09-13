@@ -53,9 +53,9 @@ revisit themes that needed help or remained unresolved.
 
 ## Choose the questions
 
-Ask three primary questions by default, adding a fourth only for an important
-remaining gap while the check is still near five minutes. `--deep` asks five.
-Do not pad a small change with trivia.
+Target three primary questions by default, adding a fourth only for an
+important remaining gap while the check is still near five minutes. `--deep`
+allows up to five. Stop early rather than pad a small change with trivia.
 
 Rank candidate gaps by the likely cost of a wrong model:
 
@@ -106,6 +106,8 @@ Judge the expressed model, not keywords:
 - **Prompted:** guessed, missing its cause, or completed through the follow-up;
   an unexplained correct choice belongs here.
 - **Unresolved:** wrong, unknown, or still unclear after the follow-up.
+- **Unassessed:** conflicting evidence or a code/documentation problem means
+  there is no definitive answer.
 
 A demonstrated answer gets a brief acknowledgement, confirming evidence, a
 silent ledger update, and the next question if one remains. An answer that is
@@ -113,17 +115,19 @@ partial, hedged, wrong, or otherwise prompted—including an unexplained correct
 choice—gets one short follow-up about the missing mechanism. Then resolve it
 briefly with evidence and move on; save broader teaching for the close. For
 prompted or unresolved topics, state the missing or mistaken causal link
-without quoting the user verbatim. After asking the next question, end the turn.
+without quoting the user verbatim. Rerank or replace the remaining questions
+after every answer so they target the most important gaps now visible. After
+asking the next question, end the turn.
 
 If an answer reveals a real code or documentation problem, say so once and do
-not grade against an unproven assumption. Do not turn the check into a review.
-If the user stops, close gracefully.
+not grade against an unproven assumption; mark the topic unassessed. Do not turn
+the check into a review. If the user stops, close gracefully.
 
 ## Close
 
 Give a compact summary that:
 
-- labels each topic demonstrated, prompted, or unresolved;
+- labels each topic demonstrated, prompted, unresolved, or unassessed;
 - corrects prompted or unresolved models with direct evidence;
 - names any important gap that exceeded the question budget, with a code
   pointer, and records it as unresolved;

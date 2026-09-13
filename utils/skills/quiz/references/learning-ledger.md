@@ -29,7 +29,7 @@ later topics beneath the same heading before asking the next question:
 - Module: <system or package>
   - Lens: design | conventions | behaviour
   - Theme: <reusable concept>
-  - Result: demonstrated | prompted | unresolved
+  - Result: demonstrated | prompted | unresolved | unassessed
   - Learned or discussed: <concise conclusion>
   - Governing source: <repository-relative path or none>
   - Evidence: <file:line, permanent link, doc, or repro>
@@ -38,4 +38,6 @@ later topics beneath the same heading before asking the next question:
 
 Record conclusions rather than verbatim answers or speculation. If the user
 ends an unfinished topic, or the close discloses an important untested topic,
-record it as unresolved. Do not narrate ledger writes between questions.
+record it as unresolved. An unassessed result says nothing about the user's
+mastery; reconsider it only after the source conflict or defect is resolved.
+Do not narrate ledger writes between questions.
