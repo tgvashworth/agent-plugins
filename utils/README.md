@@ -114,6 +114,23 @@ Walk through code changes or a plan in a logical, grouped sequence — one group
 /tourguide 42
 ```
 
+### `/quiz [PR, branch, commit range, --focus, or --deep]`
+
+Run a fast, adaptive check of your understanding of the current change. It
+asks one evidence-backed question at a time, focuses on load-bearing decisions
+in the diff, and keeps a private per-repository learning ledger so later
+sessions build on what you have already covered. It normally asks three to four
+questions; `--deep` allows up to five. Use `--focus` with `design`,
+`conventions`, or `behaviour` to concentrate on one aspect of the change.
+
+**Example:**
+```bash
+/quiz
+/quiz 42
+/quiz --focus behaviour
+/quiz --deep
+```
+
 ### `/what [what was unclear]`
 
 Re-explain the previous message in plain English — reconnect it to the thread, define only what you introduced, bottom line first. Use it when a reply didn't land.
