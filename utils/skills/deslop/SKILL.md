@@ -13,13 +13,12 @@ argument-hint: "[file, diff range, PR, commit, ticket, or pasted text]"
 
 # Deslop
 
-Make every word in the target hand over its meaning in one pass. You change
-the words a person reads. You do not change logic, markup, structure,
+Remove AI slop from the target. Make every word in the target convey meaning clearly.
+
+You change the words a person reads. You do not change logic, markup, structure,
 interpolation variables, or behaviour.
 
-Read the rules first — they are the authority for every judgement below:
-
-`references/style.md`
+Read the rules first: `references/style.md`
 
 ## Phase 0: Resolve the target
 
@@ -35,8 +34,7 @@ Work out what the user's requested target points at. Pick the first match:
 | A Linear issue key (`ABC-123`) or URL | That ticket | Title and description |
 | Anything else — quoted text, a pasted message, a sentence | The text itself | Rewrite it in your reply |
 
-If the argument is ambiguous (a bare number could be a PR or a ticket), check
-`gh pr view <n>` first and fall back to a ticket lookup.
+If the argument is ambiguous (a bare number could be a PR or a ticket), figure it out from context.
 
 Load the target's conventions alongside the style rules:
 
@@ -49,9 +47,8 @@ Load the target's conventions alongside the style rules:
 ## Phase 1: Collect
 
 Gather every in-scope string with a `file:line` (or field name) reference.
-For diffs, only lines the diff touched are in scope — neighbouring legacy
-text is fix-on-touch: note it in the report if it is badly off, but do not
-rewrite it unless the caller asked for a whole-file pass.
+For diffs, only lines the diff touched are in scope. You can fix neighbouring legacy text
+on the spot if it is in a bad state, but do not rewrite it unless the caller asked for a whole-file pass.
 
 For a PR or ticket, read the *current* branch or issue state too. A stale
 description is the most common problem, and the fix is to describe what is
@@ -71,7 +68,7 @@ For each string, read it once as a stranger mid-task. Ask:
 
 Rewrite offenders. Keep rewrites minimal — change the words, keep everything
 around them. A rewrite must state the same fact. If the right wording depends
-on a decision you cannot see (which of two terms is canonical, what a feature
+on a decision (which of two terms is canonical, what a feature
 is actually called), flag it instead of guessing.
 
 Delete rather than rewrite when the string says nothing: a comment that

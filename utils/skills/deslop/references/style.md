@@ -1,221 +1,96 @@
-# Deslop style rules
+# Plain English writing rules
 
-The reader is mid-task and will read the words exactly once. Every string must
-hand over its meaning in one pass: the real noun, the plain verb, the concrete
-fact. Anything that makes the reader decode — cleverness, metaphor,
-personification, compression, drama, filler — taxes them to make the writing
-look good. Spend nothing of the reader's attention on the writing itself.
+Write so the reader can understand the text on the first reading and continue their task. State the facts and make any required action clear. Include the words needed to explain the meaning, even if the sentence becomes longer.
 
-A wordy-but-plain sentence beats a short-but-clever one.
+Apply these rules to product copy, code comments, commit messages, pull requests, and tickets. Follow established terminology and conventions for the product or repository where they differ from this guide. Use British spelling unless an existing convention or technical identifier requires otherwise.
 
-These rules draw on the ASD-STE100 Simplified Technical English standard
-(controlled vocabulary, simple grammar, hard length limits) and on
-plain-English microcopy practice. They are generic: apply them everywhere
-unless the target's own conventions (a repo's commit style, a house glossary,
-a product's established voice) say otherwise.
+## Sentences and structure
 
-## Sentences and grammar
+- Give each sentence one main idea. Give each instruction one action, unless two actions must happen together.
+- Keep instructions to 20 words or fewer and descriptions to 25 words or fewer. Split longer sentences without removing words needed for clarity.
+- Keep each paragraph about one topic, with no more than six sentences. Start with the main point.
+- Use active voice and simple verb forms where possible. Write "The job retries three times."
+- Start instructions with the action verb. Put any condition or warning before the action it affects: "To continue, upload a file."
+- Use complete sentences in prose. Short labels, headings, and status messages can use phrases where the meaning is clear.
+- Use full stops, commas, and colons. Avoid em dashes and slashes used to combine words or alternatives.
+- Keep articles and connecting words. Do not shorten a sentence into a phrase the reader must work out.
+- Avoid groups of more than three nouns. Write "the eviction policy for the session cache" instead of "session cache eviction policy configuration".
+- Use numbered lists for steps that follow an order. Use bullets for sets of four or more items, or when a list makes comparison easier.
 
-- **One idea per sentence.** Instructions: one instruction per sentence,
-  unless two actions are simultaneous.
-- **Length caps.** Instructions ≤ 20 words. Descriptions ≤ 25 words. Split
-  anything longer. Paragraphs ≤ 6 sentences, one topic each, topic sentence
-  first.
-- **Active voice.** "The job retries three times", not "Three retries are
-  attempted by the job".
-- **Simple tenses only.** Present, past, future, imperative. Avoid stacked
-  auxiliaries ("must have been", "would have been able to") and `-ing` verb
-  forms where a simple form works ("Save the file", not "Saving the file is
-  required").
-- **Command verb first** for instructions: "Upload a file first." Put any
-  warning or precondition *before* the action it governs.
-- **Full sentences, full stops.** No fragments joined with dashes. "Optional.
-  You can rename it later." — not "Optional — you can rename it later."
-- **Avoid em-dashes.** Use a full stop, a colon, or a comma. A colon
-  introduces a cause or a list: "Could not save: the connection timed out."
-- **Do not drop words to save space.** Keep articles and connectives. "How
-  many items expected." makes the reader decode; "How many items to ask
-  for." does not. Never use a slash to compress ("and/or", "click/tap").
-- **Noun clusters ≤ 3 words.** "The eviction policy for the session cache",
-  not "session cache eviction policy configuration".
-- **Vertical lists** for sequences and sets of more than about three items.
-  Prose lists hide steps.
+## Words and tone
 
-## Words
+Use common words and direct verbs. Prefer "use", "about", "help", and "start" to "utilise", "approximately", "assist", and "commence". Write "decide" instead of "make a decision".
 
-- **Short, common words.** use, not utilise; about, not approximately; help,
-  not assist; start, not commence; enough, not sufficient; to, not in order to.
-- **One word, one meaning.** Use the same term for the same thing everywhere
-  in the target, and never the same term for two things. Never invent a noun;
-  if the domain has a name for it, use that name.
-- **Name the specific noun** when it is known. "That file type is not
-  supported", not "That item is not available". Generic words ("thing",
-  "item") only when the type genuinely varies.
-- **Un-nominalise.** "decide", not "make a decision"; "implementing", not "the
-  implementation of".
-- **Address the reader as "you".** Contractions are fine for positives
-  ("you'll", "it's"). **Always spell out negatives** — "do not", "cannot",
-  "will not" — a missed negative changes the meaning.
-- **British spelling** (colour, organise, behaviour) unless the target's
-  conventions or an API name say otherwise.
-- **No "please", no emoji, no exclamation marks.** Anywhere. Instructions are
-  imperative: "Wait while we import your data."
-- **Full stop on every message**, help text, and confirmation.
+Name the specific object when it is known. Use "file", "project", or "member" instead of "item" when that is what you mean. Use the same term for the same thing throughout. Use established names for technical concepts.
 
-## Anti-patterns
+Address the reader as "you". Contractions such as "you'll" and "it's" are fine. Spell out negatives: "do not", "cannot", and "will not".
 
-The failure modes of "clever" writing. Each earns a rewrite.
+State facts directly. Avoid metaphors, decorative language, dramatic phrasing, and unusual words chosen for effect. Describe software behaviour without giving software human thoughts or intentions. Write "The importer cannot open files over 10 MB."
 
-**Mannered prose.** Metaphor and flourish in place of direct statement. The
-mannered writer produces "a dial worth turning" instead of "a parameter worth
-varying", and "this point earns its keep" instead of "this point still
-matters". The phrases exist to display the writer, not to convey the idea, and
-readers can tell. That is why mannered prose irritates: it makes the reader
-work harder so the writer can perform. It is also imprecise. A metaphor drags
-in connotations the writer did not choose and cannot control. The fix is to
-say what you mean. When a literal phrase is available, use it.
+Remove promotional claims and stock phrases. Avoid words such as "seamless", "powerful", and "unlock" when they add no concrete information. Remove openings such as "It is worth noting" and transitions such as "Furthermore" when the connection is already clear.
 
-| Wrong | Right |
-| --- | --- |
-| A dial worth turning. | A parameter worth varying. |
-| This point earns its keep. | This point still matters. |
-| The cache is the beating heart of the service. | Every request reads from the cache. |
-| We are flying blind on retries. | We do not log retries. |
+Do not use rhetorical contrasts such as "It is not X, it is Y" to introduce a straightforward fact. Avoid slogans made from short fragments or lists of adjectives. State the actual behaviour or result.
 
-**Personification.** The app, a setting, a number, a list, or code never asks,
-knows, refuses, wants, or decides. Say what happens or what the reader can do.
+Use "must" for requirements with consequences and "need to" for steps required to continue. Do not weaken a required action with "should probably" or "might want to". State uncertainty when the facts are uncertain.
 
-| Wrong | Right |
-| --- | --- |
-| The importer refuses files over 10 MB. | The importer cannot open files over 10 MB. |
-| The schedule knows no other frequency. | Frequency is daily or weekly. |
-| This folder holds your drafts. | This folder contains your drafts. |
+Do not use "please", emojis, or exclamation marks. Preserve deliberate brand language in marketing content. Apply this guide to product copy without copying the tone of nearby marketing.
 
-**Saying what isn't.** Negation riddles and drama in place of the plain fact.
+## Product copy
 
-| Wrong | Right |
-| --- | --- |
-| There is no way back from here. | You cannot undo this. |
-| Not everything here is what it seems. | (state the actual fact) |
+Use sentence case. Capitalise proper nouns and technical identifiers as required. End messages, help text, and confirmations with full stops. Buttons, labels, and headings do not need full stops.
 
-**Quaint vocabulary.** Archaic, literary, or twee word choices.
+| Type               | Rule                                                                  | Example                                                                   |
+| ------------------ | --------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Button             | Name the action and its object.                                       | Save project                                                              |
+| Success message    | Name the object and the completed action. Omit "successfully".        | Project saved.                                                            |
+| Permission error   | State the missing permission. Add a useful next step when one exists. | You do not have permission to delete this project. Ask a workspace admin. |
+| Other error        | State what failed, the cause if known, and what to do next.           | Could not save: the connection timed out. Try again.                      |
+| Validation message | Tell the reader what to enter or change.                              | Enter an email address.                                                   |
+| Empty state        | State what is absent and give the next action.                        | This workspace has no members. Add a member.                              |
+| Help text          | Put the relevant fact first.                                          | This name is optional. You can change it later.                           |
+| Warning            | State the consequence before the action.                              | You cannot undo this.                                                     |
 
-| Wrong | Right |
-| --- | --- |
-| Nobody by that name. | No users match that name. |
-| {name} had already gone. | {name} was already removed. |
-| Nought | 0 |
+Use terms the reader understands. Omit an unknown cause rather than inventing one. Avoid apologies and vague errors such as "Something went wrong". Offer only actions that can help resolve the problem.
 
-**Over-compression.** Dropped words that force decoding. The test is one-pass
-comprehension, not length. When in doubt, put the words back.
+## Code comments
 
-**Marketing-speak and AI tells.** The thing is described, never sold. Ban:
-"successfully", trailing "!", "Get started", "Ready to…", "powerful",
-"seamless", "robust", "leverage", "unlock", "delve", "elevate", "streamline",
-"landscape", "Oops", "We are sorry", "Something went wrong". Ban the shapes
-too: false antithesis ("It's not X, it's Y"), staccato triads ("Clear.
-Simple. Done."), rule-of-three adjective padding, hedging openers ("It's
-worth noting that", "Importantly", "At its core"), empty transitions
-("Furthermore", "Moreover", "That said").
+Explain constraints and reasons that are not clear from the code. Remove comments that merely restate the next line.
 
-**Hedged obligation.** Be precise: `must` for hard requirements with
-consequences; `need to` for steps that merely block progress. Never "should
-probably", "might want to", "it may be worth".
+State the constraint itself. Leave out ticket numbers, attribution, conversation history, and notes to reviewers. Do not describe the edit you just made or record what you tried.
 
-## Rules by target
+Describe the code's behaviour without phrases such as "for now" or "will be added later". Track outstanding work in tickets.
 
-### User-facing copy and microcopy
+Use documentation comments to describe behaviour, inputs, outputs, and possible errors. Follow the file's existing comment format and punctuation.
 
-Buttons, labels, headings, tooltips, empty states, help text, validation
-errors, success and error messages, emails, notifications, admin screens.
+## Commit messages
 
-- **Buttons: verb + object, always.** "Save project", "Add member", "Delete
-  workspace". Predictable and scannable; never a bare "Save" or "OK".
-- **Sentence case; lowercase domain nouns.** Capitalise only true proper nouns.
-- **Success messages: noun + past participle.** "Project saved." "Member
-  removed." Never "successfully", never "has been Xed", never "Your changes
-  have been saved!".
-- **Refusals: state the permission plainly.** "You do not have permission to
-  delete this project." Add who can only when the reader can act on it
-  ("Ask a workspace admin."). Never bare jargon ("Invalid flow parameters.")
-  and never apology.
-- **Errors: fact, cause, action.** What failed, why if known, what to do.
-  "Could not save: the connection timed out. Try again." Drop the cause if
-  you do not know it; never replace it with "Something went wrong".
-- **Validation: tell the reader what to do.** "Enter an email address."
-  Not "Email address is required" and never "This field is required".
-- **Empty states: what is absent, then the action.** "This workspace has no
-  members. Add one." Plain declarative, then imperative.
-- **Help text: full sentences, fact first.** "Optional. You can rename it
-  later." Two short sentences beat one fragment.
-- Do not rewrite deliberate marketing or brand voice to these rules, and do
-  not imitate it in product copy.
+Follow the repository's conventions. Where none exist:
 
-Calibration — strings that pass:
+- Start the subject with an imperative verb that describes the change.
+- Keep the subject to about 65 characters or fewer, with no trailing full stop or type prefix.
+- Add a body when context is needed. Explain why the change is necessary.
+- Leave out attribution footers and references to conversations or review discussions.
+- Give the subject a useful description even when it includes a ticket number.
+- Use paths relative to the repository.
 
-- "Project saved."
-- "You cannot undo this."
-- "You do not have permission to delete this project."
-- "Could not save: the connection timed out. Try again."
-- "This workspace has no members. Add one."
-- "Optional. You can rename it later."
-- "Enter an email address."
+## Pull requests
 
-### Code comments
+Write the title and description for a reviewer who has not seen the conversation. State the problem, explain the change, and describe the resulting behaviour.
 
-A comment is read by someone who has the code in front of them and nothing
-else. It earns its place only by saying what the code cannot.
+Use short summary bullets when they help. Include a test plan or verification results, and link relevant issues. State any material limits to the checks performed.
 
-- **Say why, not what.** Delete a comment that restates the line below it.
-- **No PR numbers, ticket IDs, names, or project names.** A future reader has
-  none of that context and the pointer rots. State the constraint itself, not
-  where it was decided.
-- **No project-state markers.** Nothing that reads as "currently", "for now",
-  "not yet", "will be added later", "TODO: remove after migration". Describe
-  the code as if it has always been this way. If work is genuinely
-  outstanding, that belongs in a ticket, not a comment.
-- **No agent working memory.** Narration of the change being made ("Added
-  null check here"), notes to a reviewer, reasoning about why an edit is
-  correct, or a summary of what was tried. Remove it.
-- **Doc comments describe the contract**: what it does, what it takes, what it
-  returns, what it throws. Not how it is implemented.
-- Match the file's existing comment style (sentence case, full stops, comment
-  marker) rather than imposing a new one.
+Remove drafting history, review exchanges, and descriptions of abandoned attempts. After drafting, check that the description stands alone.
 
-### Commit messages
+## Tickets
 
-Follow the repo's own conventions first. Where the repo has none, use the
-format in [the packaged commit guidance](../../../templates/common.md): a short imperative subject saying what
-changed, then optional bullets with the detail, then optional next steps.
+Give the title enough detail to identify the problem or desired outcome in a list. Write "Export ignores archived accounts" instead of "Export bug".
 
-- Subject ≤ ~65 characters, imperative, no trailing full stop, no type prefix
-  unless the repo uses one.
-- Body explains why, not how — the diff shows how.
-- No attribution footers, no conversation history ("as discussed", "per
-  review"), no ticket-only subjects ("Fix ABC-123").
-- Repo-relative paths only.
+Describe the problem or request first. Then define the result needed to close the ticket. Add the context needed to understand or reproduce it, including affected users and links to evidence.
 
-### PR titles and bodies
+Leave out chat transcripts and vague suggestions. Include a proposed fix when it is known or when assessing it is the purpose of the ticket. If the fix is known, state the required result clearly.
 
-Follow [the packaged PR guidance](../../../templates/pr-body.md): two-pass drafting (capture the change,
-then rewrite for a stranger), summary bullets, test plan, issue links. The
-body must stand alone for a reader with no context: state the problem, then
-the change. Strip iteration history and review back-and-forth.
+## Final check
 
-### Ticket titles and bodies
+Read the text as someone who knows nothing about the drafting process. Check that each sentence is clear on the first reading. Confirm that the facts are accurate, the terms are consistent, and any required action is obvious.
 
-- **Title** names the problem or outcome in plain words, and is unique in a
-  list. "Export ignores archived accounts", not "Export bug" or "Investigate
-  export issue".
-- **Body** answers three things, in order: what is wrong or wanted, what
-  "done" looks like, and any context a stranger needs (where it happens, who
-  it affects, links to evidence). Short paragraphs or a list.
-- No pasted chat transcripts, no "we should probably", no speculation about
-  the fix unless it is the point of the ticket. If the fix is known, say it
-  plainly as the acceptance criterion.
-
-## Cold read
-
-Before finishing, read every changed string as a stranger who will read it
-exactly once. If any phrase draws attention to itself — a smile, a nice turn,
-a pause to decode — rewrite it until there is nothing to notice.
+Remove repetition and wording that adds no useful meaning. Restore any words needed for clarity.
