@@ -96,21 +96,44 @@ for i in "${!IGNORE_LOGINS[@]}"; do
 done
 ignore_array+=']'
 
-# Seed snapshots so we don't emit historical state on first iteration. We
-# surface human comments too, so seed *all* existing comments/reviews (not just
-# bots) — otherwise historical discussion would flood the first poll.
-gh pr checks "$PR" --json name,bucket,state,link >"$checks_state" 2>/dev/null || echo '[]' >"$checks_state"
-gh api "repos/$REPO/issues/$PR/comments" --paginate \
-  --jq ".[] | .id" \
-  >>"$issue_seen" 2>/dev/null || true
-gh api "repos/$REPO/pulls/$PR/comments" --paginate \
-  --jq ".[] | .id" \
-  >>"$review_seen" 2>/dev/null || true
-gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
-  --jq ".[] | .id" \
-  >>"$reviews_seen" 2>/dev/null || true
+# Keep snapshots across host restarts when REVIEW_AGENT_STATE_DIR is supplied.
+# A failed/pending check command can return nonzero with valid JSON.
+checks_valid() { jq -e 'type == "array"' "$1" >/dev/null 2>&1; }
+checks_green() {
+  jq -e 'length > 0 and all(.[]; .bucket == "pass" or .bucket == "skipping")' "$1" >/dev/null 2>&1
+}
+seed_checks() {
+  local snapshot="$STATE_DIR/checks-seed.json"
+  gh pr checks "$PR" --json name,bucket,state,link >"$snapshot" 2>/dev/null
+  if ! checks_valid "$snapshot"; then
+    rm -f "$snapshot"
+    return 1
+  fi
+  mv "$snapshot" "$checks_state"
+  if checks_green "$checks_state"; then
+    touch "$allgreen_flag"
+  else
+    rm -f "$allgreen_flag"
+  fi
+}
 
-echo "[watch] $REPO#$PR (author: ${PR_AUTHOR:-?}) — polling every ${POLL_INTERVAL}s"
+# An unavailable first snapshot is retried silently. The first valid snapshot
+# is the baseline; only later transitions generate events.
+if ! checks_valid "$checks_state"; then
+  seed_checks || true
+fi
+seed_comments() {
+  local seen="$1" endpoint="$2" snapshot="$1.seed"
+  [[ -f "$seen.seeded" ]] && return
+  if gh api "$endpoint" --paginate --jq ".[] | .id" >"$snapshot" 2>/dev/null; then
+    cat "$snapshot" >>"$seen"
+    touch "$seen.seeded"
+  fi
+  rm -f "$snapshot"
+}
+seed_comments "$issue_seen" "repos/$REPO/issues/$PR/comments"
+seed_comments "$review_seen" "repos/$REPO/pulls/$PR/comments"
+seed_comments "$reviews_seen" "repos/$REPO/pulls/$PR/reviews"
 
 emit_new_ids() {
   # $1 = seen-ids file, stdin = lines of "<id>\t<rest>". Emit "<rest>" for unseen ids.
@@ -135,10 +158,11 @@ while true; do
   # --- CI checks: emit failures/cancellations only, plus one all-green summary.
   # Gate on valid JSON rather than gh's exit code (gh pr checks exits non-zero
   # while checks are pending/failing, but still prints valid JSON we want).
-  new_checks=$(mktemp)
+  new_checks="$STATE_DIR/checks-next.json"
   gh pr checks "$PR" --json name,bucket,state,link >"$new_checks" 2>/dev/null
   if [[ -s "$new_checks" ]] && jq -e 'type=="array"' "$new_checks" >/dev/null 2>&1; then
-    jq -r --slurpfile prev "$checks_state" '
+    if checks_valid "$checks_state"; then
+      jq -r --slurpfile prev "$checks_state" '
       ($prev[0] // []) as $p |
       .[] as $c |
       ($p | map(select(.name == $c.name)) | .[0]) as $old |
@@ -146,7 +170,10 @@ while true; do
       if $bad and (($old == null) or ($old.bucket != $c.bucket)) then
         "CHECK \($c.name): \($c.bucket) \($c.link // "")"
       else empty end
-    ' "$new_checks" 2>/dev/null || true
+      ' "$new_checks" 2>/dev/null || true
+    elif checks_green "$new_checks"; then
+      touch "$allgreen_flag"
+    fi
     mv "$new_checks" "$checks_state"
 
     # Single summary line once nothing is pending and nothing failed. Skipped
@@ -154,12 +181,9 @@ while true; do
     # but they're reported separately rather than counted as "passed". The flag
     # resets whenever we re-enter a pending/failed state, so a later clean run
     # (e.g. after a re-push) emits the summary again.
-    total=$(jq 'length' "$checks_state" 2>/dev/null || echo 0)
-    pending=$(jq '[.[]|select(.bucket=="pending")]|length' "$checks_state" 2>/dev/null || echo 0)
-    bad=$(jq '[.[]|select(.bucket=="fail" or .bucket=="cancel")]|length' "$checks_state" 2>/dev/null || echo 0)
     passed=$(jq '[.[]|select(.bucket=="pass")]|length' "$checks_state" 2>/dev/null || echo 0)
     skipped=$(jq '[.[]|select(.bucket=="skipping")]|length' "$checks_state" 2>/dev/null || echo 0)
-    if [[ "$total" -gt 0 && "$pending" -eq 0 && "$bad" -eq 0 ]]; then
+    if checks_green "$checks_state"; then
       if [[ ! -f "$allgreen_flag" ]]; then
         if [[ "$skipped" -gt 0 ]]; then
           echo "CHECK all checks complete — $passed passed, $skipped skipped"
@@ -176,43 +200,55 @@ while true; do
   fi
 
   # --- Issue (PR-level) comments: bots + self + human reviewers.
-  gh api "repos/$REPO/issues/$PR/comments" --paginate \
-    --jq "$bot_array as \$bots | $ignore_array as \$ignore | .[]
-          | (.user.login) as \$u
-          | (if (\$bots | index(\$u)) then \"COMMENT \(\$u)\"
-             elif ((\$ignore | index(\$u)) or (.user.type == \"Bot\")) then \"\"
-             elif (\$u == \"$PR_AUTHOR\") then \"COMMENT-SELF \(\$u)\"
-             else \"COMMENT-HUMAN \(\$u)\" end) as \$label
-          | select(\$label != \"\")
-          | \"\(.id)\t\(\$label): \(.body | gsub(\"\\n\";\" \") | .[0:300])  (\(.html_url))\"" \
-    2>/dev/null | emit_new_ids "$issue_seen"
+  if [[ ! -f "$issue_seen.seeded" ]]; then
+    seed_comments "$issue_seen" "repos/$REPO/issues/$PR/comments"
+  else
+    gh api "repos/$REPO/issues/$PR/comments" --paginate \
+      --jq "$bot_array as \$bots | $ignore_array as \$ignore | .[]
+            | (.user.login) as \$u
+            | (if (\$bots | index(\$u)) then \"COMMENT \(\$u)\"
+               elif ((\$ignore | index(\$u)) or (.user.type == \"Bot\")) then \"\"
+               elif (\$u == \"$PR_AUTHOR\") then \"COMMENT-SELF \(\$u)\"
+               else \"COMMENT-HUMAN \(\$u)\" end) as \$label
+            | select(\$label != \"\")
+            | \"\(.id)\t\(\$label): \(.body | gsub(\"\\n\";\" \") | .[0:300])  (\(.html_url))\"" \
+      2>/dev/null | emit_new_ids "$issue_seen"
+  fi
 
   # --- Inline review comments: bots (Bugbot etc.) + self + human reviewers.
-  gh api "repos/$REPO/pulls/$PR/comments" --paginate \
-    --jq "$bot_array as \$bots | $ignore_array as \$ignore | .[]
-          | (.user.login) as \$u
-          | (if (\$bots | index(\$u)) then \"REVIEW-COMMENT \(\$u)\"
-             elif ((\$ignore | index(\$u)) or (.user.type == \"Bot\")) then \"\"
-             elif (\$u == \"$PR_AUTHOR\") then \"REVIEW-COMMENT-SELF \(\$u)\"
-             else \"REVIEW-COMMENT-HUMAN \(\$u)\" end) as \$label
-          | select(\$label != \"\")
-          | \"\(.id)\t\(\$label) at \(.path):\(.line // .original_line // 0): \(.body | gsub(\"\\n\";\" \") | .[0:300])  (\(.html_url))\"" \
-    2>/dev/null | emit_new_ids "$review_seen"
+  if [[ ! -f "$review_seen.seeded" ]]; then
+    seed_comments "$review_seen" "repos/$REPO/pulls/$PR/comments"
+  else
+    gh api "repos/$REPO/pulls/$PR/comments" --paginate \
+      --jq "$bot_array as \$bots | $ignore_array as \$ignore | .[]
+            | (.user.login) as \$u
+            | (if (\$bots | index(\$u)) then \"REVIEW-COMMENT \(\$u)\"
+               elif ((\$ignore | index(\$u)) or (.user.type == \"Bot\")) then \"\"
+               elif (\$u == \"$PR_AUTHOR\") then \"REVIEW-COMMENT-SELF \(\$u)\"
+               else \"REVIEW-COMMENT-HUMAN \(\$u)\" end) as \$label
+            | select(\$label != \"\")
+            | \"\(.id)\t\(\$label) at \(.path):\(.line // .original_line // 0): \(.body | gsub(\"\\n\";\" \") | .[0:300])  (\(.html_url))\"" \
+      2>/dev/null | emit_new_ids "$review_seen"
+  fi
 
   # --- Reviews (approve / changes-requested / commented): bots + self + humans.
   # Skip empty-body COMMENTED reviews — they're just the wrapper around inline
   # comments we've already surfaced, and would double the signal.
-  gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
-    --jq "$bot_array as \$bots | $ignore_array as \$ignore | .[]
-          | select(.state != \"COMMENTED\" or ((.body // \"\") | length > 0))
-          | (.user.login) as \$u
-          | (if (\$bots | index(\$u)) then \"REVIEW \(\$u)\"
-             elif ((\$ignore | index(\$u)) or (.user.type == \"Bot\")) then \"\"
-             elif (\$u == \"$PR_AUTHOR\") then \"REVIEW-SELF \(\$u)\"
-             else \"REVIEW-HUMAN \(\$u)\" end) as \$label
-          | select(\$label != \"\")
-          | \"\(.id)\t\(\$label) [\(.state)]: \((.body // \"\") | gsub(\"\\n\";\" \") | .[0:300])  (\(.html_url))\"" \
-    2>/dev/null | emit_new_ids "$reviews_seen"
+  if [[ ! -f "$reviews_seen.seeded" ]]; then
+    seed_comments "$reviews_seen" "repos/$REPO/pulls/$PR/reviews"
+  else
+    gh api "repos/$REPO/pulls/$PR/reviews" --paginate \
+      --jq "$bot_array as \$bots | $ignore_array as \$ignore | .[]
+            | select(.state != \"COMMENTED\" or ((.body // \"\") | length > 0))
+            | (.user.login) as \$u
+            | (if (\$bots | index(\$u)) then \"REVIEW \(\$u)\"
+               elif ((\$ignore | index(\$u)) or (.user.type == \"Bot\")) then \"\"
+               elif (\$u == \"$PR_AUTHOR\") then \"REVIEW-SELF \(\$u)\"
+               else \"REVIEW-HUMAN \(\$u)\" end) as \$label
+            | select(\$label != \"\")
+            | \"\(.id)\t\(\$label) [\(.state)]: \((.body // \"\") | gsub(\"\\n\";\" \") | .[0:300])  (\(.html_url))\"" \
+      2>/dev/null | emit_new_ids "$reviews_seen"
+  fi
 
   sleep "$POLL_INTERVAL"
 done
