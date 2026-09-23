@@ -102,11 +102,29 @@ findings in alongside incoming feedback when it returns.
 Run the watcher with the host's persistent or long-running process capability.
 The script seeds with the PR's current state (which you already reviewed in
 Phase 1), then streams one line per *new* CI failure or comment, and exits on
-merge/close.
+merge/close. Startup and unchanged CI are silent.
+
+Create a temporary state directory with `mktemp -d` in a short shell call and
+record the returned absolute path. Pass that path when starting the watcher:
 
 ```
-scripts/watch.sh <N>
+REVIEW_AGENT_STATE_DIR=/absolute/path/to/state scripts/watch.sh <N>
 ```
+
+Keep that state directory for this watch and reuse its exact path if the host
+expires the process. This preserves check and comment history, including changes
+that arrive while the process is stopped. Use a separate directory for each PR.
+
+A process timeout is housekeeping, not a new review round. If active work still
+needs the watcher, restart it quietly with the same state directory. If the task
+is handed off or waiting only for the user's decision, let it stop until the user
+resumes the task or asks for continued monitoring. Do not recheck mergeability or
+start unrelated work solely because a timer expired.
+
+Only report new actionable feedback, a material change in CI or PR state, or a
+new decision for the user. Routine startup, expiry, restart and unchanged results
+need no commentary, final report or recap. Never repeat a pending permission
+question on a timer.
 
 Each event line ends with a comment/review URL. Bodies are truncated to 300
 chars — when you need the full text, call
