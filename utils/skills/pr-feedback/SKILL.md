@@ -45,6 +45,12 @@ Present the triage as a table so the user can review your reasoning before you s
   don't implement something just because a bot said it.
 - **Conflicting feedback** — flag it and ask the user.
 
+For worthwhile suggestions just outside this PR's scope, use the shared
+[follow-up guidance](../../references/review-follow-ups.md): file or reuse a
+ticket when authorised, or propose a fast follow (merge this PR, then implement
+the agreed changes in a separate PR). Keep necessary fixes in this PR and do
+not treat a proposed deferral as reviewer agreement.
+
 ## Phase 3: Plan
 
 For all items in the **Implement** bucket:

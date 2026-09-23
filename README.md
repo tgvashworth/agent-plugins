@@ -54,7 +54,8 @@ A grab-bag of useful skills, invoked with `/u:<name>` in Claude Code or `$<name>
 - `/u:pr-comments` — fetch PR comments, reviews, and threads in one call
 - `/u:pr-feedback` — triage and act on PR review feedback
 - `/u:pr-respond` — reply to and resolve PR review threads
-- `/u:review-agent` — review a PR and watch it for new CI failures and comments
+- `/u:review-cycle` — fix, test, push, and respond through review towards green CI
+- `/u:review-agent` — read-only PR review and monitoring for CI failures and comments
 - `/u:remember` — persist a convention to the project's shared AGENTS.md/CLAUDE.md
 - `/u:write` — draft or improve a longer document through a structured process
 - `/u:tourguide` — walk through changes or a plan one group at a time
@@ -90,14 +91,19 @@ These skills are built to work together. The combinations that I find useful:
 /u:commit-push-pr
 ```
 
-`/u:commit-push-pr` writes the PR body, opens it, and hands off to `/u:review-agent` itself — you don't need to call the review agent after shipping.
+`/u:commit-push-pr` writes the PR body, opens it, and continues into `/u:review-cycle` with the task's existing permissions.
 
 **Drive a PR to green.** Pass the number plus how you want it handled — round budget, merge behaviour, how hard to push back:
 
 ```
-/u:review-agent 1236 and then merge once we're green
-/u:review-agent 1365 but with strong pressure not to implement nits
+/u:review-cycle 1236 and then merge once we're green
+/u:review-cycle 1365 but with strong pressure not to implement nits
 ```
+
+`review-cycle` runs the fix/test/push/respond loop, with an optional independent
+reviewer and a rising stop-here score. Useful out-of-scope findings get tickets;
+an agreed fast follow means merging this PR first, then implementing the
+requested changes in a separate PR. Use `review-agent` for read-only monitoring.
 
 **When a reply doesn't land.** Quote the phrase that confused you, or name what you want redone. Most useful right after a dense review report:
 
@@ -133,7 +139,7 @@ These skills are built to work together. The combinations that I find useful:
 /u:ready-for-review
 ```
 
-`/u:pr-comments`, `/u:pr-feedback` and `/u:pr-respond` are the machinery `/u:review-agent` drives for you. Reach for `pr-feedback` or `pr-respond` directly only when you want that one step on its own; `pr-comments` is internal.
+`/u:review-cycle` covers the ongoing loop. Reach for `pr-feedback` or `pr-respond` when you want only triage and fixes, or replies and resolution; `pr-comments` provides a feedback snapshot.
 
 ## Author
 

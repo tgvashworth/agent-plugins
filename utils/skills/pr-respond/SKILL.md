@@ -34,6 +34,11 @@ whether the feedback has been addressed, then categorise:
 | **Acknowledged** | Valid point but no code change needed (deliberate choice, out of scope) | Reply explaining why, leave unresolved for reviewer to close |
 | **Needs discussion** | Unclear, ambiguous, or you disagree | Draft a reply for user review |
 
+For deferred work, follow the shared
+[ticket and fast-follow guidance](../../references/review-follow-ups.md).
+Link the ticket and distinguish an agreed fast follow from a proposal;
+filing a ticket alone does not address or resolve the review thread.
+
 Present the categorisation as a table and **wait for user approval** before posting anything.
 
 ## Phase 3: Post replies and resolve threads
