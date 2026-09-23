@@ -68,7 +68,8 @@ Verify success at each step before moving to the next.
 
 ## After the PR is open
 
-Immediately start the `review-agent` skill on the PR (whether newly created or
-just marked ready) to kick off a background review and watch for incoming
-feedback from CI, bots, and reviewers. Skip this if the host has no background
-process capability, and say so.
+Continue with the [review-cycle skill](../review-cycle/SKILL.md) on the PR
+(whether newly created or just marked ready), carrying forward the user's
+scope and permissions. It handles CI and review feedback, fixes, and pushes
+with a rising stop-here score. Delegating a reviewer is optional; the main
+agent remains able to implement fixes even without background capabilities.

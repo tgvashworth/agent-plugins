@@ -75,13 +75,34 @@ Append a convention, fact, or instruction to the project's shared `AGENTS.md` or
 
 ### `/ready-for-review [PR number or URL]`
 
-Take a draft PR whose description has gone stale, rewrite the title and body from scratch against what the branch actually contains, and mark it ready for review. Stops if you have uncommitted or unpushed work, then hands off to the review agent.
+Take a draft PR whose description has gone stale, rewrite the title and body from scratch against what the branch actually contains, and mark it ready for review. Stops if you have uncommitted or unpushed work, then continues into the review cycle with the task's existing permissions.
 
 **Example:**
 ```bash
 /ready-for-review
 /ready-for-review 42
 ```
+
+### `/review-cycle [PR number or URL] [guidance]`
+
+Drive the PR towards green CI and addressed review comments: triage, fix, test,
+commit, push, reply, and resolve. An independent review sub-agent is optional;
+the main agent keeps implementing either way. A rising stop-here score limits
+repeated rounds. Useful out-of-scope work gets a ticket or an agreed fast follow:
+merge this PR, then implement the requested changes in a separate PR.
+
+**Example:**
+```bash
+/review-cycle
+/review-cycle 42 without a sub-agent
+/review-cycle 42 and merge once we're green
+```
+
+### `/review-agent [PR number or URL]`
+
+Review and monitor a PR without editing, committing, or pushing. Reports
+findings to the session doing the implementation. Use `review-cycle` to own
+fixes and pushes through the review loop.
 
 ### `/pr-feedback [PR number or URL]`
 

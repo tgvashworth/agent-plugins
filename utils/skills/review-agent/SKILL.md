@@ -14,6 +14,11 @@ argument-hint: "[PR number or URL]"
 
 # Review agent
 
+For an editing session that should fix and push through review, use
+[review-cycle](../review-cycle/SKILL.md). This skill is the read-only monitor;
+its restrictions apply to the session running it and its review workers, not
+to a separate owning session implementing findings.
+
 Drive the whole review loop on a pull request: run our own review in the
 background, watch for everyone else's feedback as it arrives, and report it.
 

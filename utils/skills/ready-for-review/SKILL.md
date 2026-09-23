@@ -16,7 +16,7 @@ never written properly at all. Rewrite it against what the branch actually
 contains now, then open it for review.
 
 This complements the other PR skills — `commit-push-draft` (create the draft),
-`review-agent` (watch the review), `pr-feedback` (act on it). Use **this** skill
+`review-cycle` (iterate on review), `pr-feedback` (act on a snapshot). Use **this** skill
 when the code is already pushed and the only thing left is to present it well
 and hand it over.
 
@@ -89,5 +89,6 @@ Verify both succeeded and return the PR URL.
 
 ## Phase 5: Hand over to review
 
-Immediately start the `review-agent` skill on the PR to kick off a background
-review and watch for incoming feedback (CI, bots, reviewers).
+Continue with the [review-cycle skill](../review-cycle/SKILL.md) on the PR,
+carrying forward the user's scope and permissions. It works through CI and
+review feedback with optional review delegation and a rising stop-here score.
