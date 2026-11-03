@@ -24,15 +24,15 @@ Read the rules first: `references/style.md`
 
 Work out what the user's requested target points at. Pick the first match:
 
-| Argument | Target | Scope |
-|----------|--------|-------|
-| *(empty)* | The branch diff (`git diff main...HEAD` plus uncommitted changes) | Comments and user-facing strings on lines the diff added or changed |
-| `comments` / `copy` | Same diff, narrowed to that kind of string | As above, one kind only |
-| A file path or glob | Those files | Every comment and user-facing string in them (a whole-file pass) |
-| `commit`, `HEAD`, or a commit SHA | That commit's message | Subject and body |
-| `pr`, a PR number, or a GitHub PR URL | That PR | Title and body |
-| A Linear issue key (`ABC-123`) or URL | That ticket | Title and description |
-| Anything else — quoted text, a pasted message, a sentence | The text itself | Rewrite it in your reply |
+| Argument                                                  | Target                                                            | Scope                                                               |
+| --------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
+| _(empty)_                                                 | The branch diff (`git diff main...HEAD` plus uncommitted changes) | Comments and user-facing strings on lines the diff added or changed |
+| `comments` / `copy`                                       | Same diff, narrowed to that kind of string                        | As above, one kind only                                             |
+| A file path or glob                                       | Those files                                                       | Every comment and user-facing string in them (a whole-file pass)    |
+| `commit`, `HEAD`, or a commit SHA                         | That commit's message                                             | Subject and body                                                    |
+| `pr`, a PR number, or a GitHub PR URL                     | That PR                                                           | Title and body                                                      |
+| A Linear issue key (`ABC-123`) or URL                     | That ticket                                                       | Title and description                                               |
+| Anything else — quoted text, a pasted message, a sentence | The text itself                                                   | Rewrite it in your reply                                            |
 
 If the argument is ambiguous (a bare number could be a PR or a ticket), figure it out from context.
 
@@ -50,9 +50,9 @@ Gather every in-scope string with a `file:line` (or field name) reference.
 For diffs, only lines the diff touched are in scope. You can fix neighbouring legacy text
 on the spot if it is in a bad state, but do not rewrite it unless the caller asked for a whole-file pass.
 
-For a PR or ticket, read the *current* branch or issue state too. A stale
+For a PR or ticket, read the _current_ branch or issue state too. A stale
 description is the most common problem, and the fix is to describe what is
-there now, not to polish what was written then.
+there now.
 
 ## Phase 2: Cold read and rewrite
 
@@ -78,13 +78,13 @@ restates the code, a "successfully" with no fact behind it, a filler sentence.
 
 How to land the change depends on the target:
 
-| Target | How |
-|--------|-----|
-| Files | Edit in place. |
+| Target         | How                                                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Files          | Edit in place.                                                                                                                |
 | Commit message | If it is `HEAD` and not yet pushed, `git commit --amend`. Otherwise show the rewrite and stop — never rewrite pushed history. |
-| PR | `gh pr edit <n> --title … --body …`. |
-| Ticket | Update via the Linear tool if one is available; otherwise show the rewrite. |
-| Pasted text | Reply with the rewrite. |
+| PR             | `gh pr edit <n> --title … --body …`.                                                                                          |
+| Ticket         | Update via the Linear tool if one is available; otherwise show the rewrite.                                                   |
+| Pasted text    | Reply with the rewrite.                                                                                                       |
 
 Never push. Never touch lines, files, or fields outside the resolved scope.
 
