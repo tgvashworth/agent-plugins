@@ -1,216 +1,156 @@
 # Utils
 
-`/u`: useful Agent Skills for Claude Code, Codex, and other compatible hosts.
-Every workflow is a skill under `skills/`, so each host sees the same set. In
-Claude Code invoke one with `/u:<name>`; in Codex, ask naturally or use
-`$<name>`, such as `$commit-push-pr`, `$context`, or `$pr-feedback`.
+Skills for Git, pull requests, reviews, and writing. The plugin is installed as `u` in
+Claude Code and Codex.
+
+In Claude Code, invoke a skill with `/u:<name>`. In Codex, use `$<name>`. You can also
+describe the task in plain English, as in the examples below. Each skill's README
+explains its inputs and behaviour.
 
 ## Skills
 
-### `/context [guidance]`
+### [context](skills/context/README.md)
 
-Switch context and get up to speed with a task. Accepts a ticket reference, branch name, or general guidance. Orients its summary toward next steps based on what you give it.
+Get up to speed on a task, ticket, branch, or plan. The agent summarises the repository
+state and suggests next steps.
 
-### `/commit [guidance]`
+### [commit](skills/commit/README.md)
 
-Create a git commit with an auto-generated message.
+Create one Git commit from the current changes. The agent writes a message in your
+repository's style and handles pre-commit hooks.
 
-- Analyzes current changes
-- Matches your repository's commit style
-- Handles pre-commit hooks automatically
-- Optional: Provide guidance text to influence the commit message
+### [commit-push-pr](skills/commit-push-pr/README.md)
 
-**Example:**
-```bash
-/commit
-/commit "focus on the bug fix, not the refactoring"
+Commit the changes, push the branch, and open a PR ready for review. An existing PR is
+updated instead of duplicated.
+
+### [commit-push-draft](skills/commit-push-draft/README.md)
+
+Commit the changes, push the branch, and open a draft PR. An existing PR is updated
+without changing its draft or ready state.
+
+### [bg](skills/bg/README.md)
+
+Run a task in a background agent while you continue other work. The task description
+becomes the worker's brief.
+
+### [remember](skills/remember/README.md)
+
+Save a project fact, rule, or convention in the relevant AGENTS.md or CLAUDE.md. Future
+sessions can read it from the repository.
+
+### [ready-for-review](skills/ready-for-review/README.md)
+
+Rewrite a PR's title and description to match the current branch, then mark a draft
+ready for review.
+
+### [review-cycle](skills/review-cycle/README.md)
+
+Address PR feedback and CI failures. The agent assesses comments, fixes issues, runs
+tests, pushes changes, and replies to reviewers.
+
+It can stop with checks or feedback outstanding when its round or waiting limit is
+reached.
+
+### [review-agent](skills/review-agent/README.md)
+
+Review a PR and monitor new comments and CI failures. Return findings to the session
+making the changes.
+
+### [pr-feedback](skills/pr-feedback/README.md)
+
+Assess PR feedback and decide which suggestions to implement, acknowledge, or decline.
+Plan and apply the approved fixes.
+
+### [pr-respond](skills/pr-respond/README.md)
+
+Reply to PR review comments and resolve threads whose feedback has been addressed. The
+agent checks the current code before responding.
+
+### [pr-comments](skills/pr-comments/README.md)
+
+Read the comments, reviews, and inline threads on a PR. The agent groups the feedback by
+reviewer and file.
+
+### [tourguide](skills/tourguide/README.md)
+
+Understand a change or plan one part at a time. The agent explains what changed, why,
+and what it affects.
+
+### [quiz](skills/quiz/README.md)
+
+Check your understanding of a change with questions based on its diff and repository
+conventions. The agent explains any gaps in your answers.
+
+### [what](skills/what/README.md)
+
+Ask for the previous response to be explained again in plain English. Quote a confusing
+phrase or name the part you want clarified.
+
+### [deslop](skills/deslop/README.md)
+
+Rewrite comments, copy, commit messages, PRs, or tickets in plain English. Remove filler
+and wording that takes effort to understand.
+
+### [slack](skills/slack/README.md)
+
+Write a Slack message from the conversation. By default, the reply contains only the
+message, ready to copy into Slack.
+
+### [write](skills/write/README.md)
+
+Help the agent write better documents. It sets the goal and audience, plans the
+structure, drafts, and reviews the result.
+
+## Examples
+
+You can ask for several workflows in one request:
+
+> Commit, push, PR, and review-cycle this change.
+
+The agent commits and pushes the change, opens or updates the PR, then handles CI
+failures and review feedback. Merging requires your authorisation.
+
+Other examples:
+
+| Request | Workflow |
+| --- | --- |
+| "Open a draft PR so I can look at it." | `commit-push-draft` |
+| "Explain this branch to me one part at a time." | `tourguide` |
+| "Check that I understand this change." | `quiz` |
+| "Use the write skill to improve this proposal for the leadership team." | `write` |
+| "Rewrite this README in plain English." | `deslop` |
+
+To select a skill explicitly in Claude Code:
+
+```text
+/u:commit-push-pr
+/u:tourguide feature/auth-refactor
+/u:write docs/rfc-auth.md
 ```
 
-### `/commit-push-pr [guidance]`
+In Codex:
 
-Create a commit, push to remote, and open a pull request.
-
-- Creates a branch if you're on main/master
-- Commits changes with verification
-- Pushes to remote
-- Opens a PR with auto-generated description
-- If a draft PR already exists, re-writes its description from scratch and marks it ready for review
-- Optional: Provide guidance for commit/PR messages
-
-**Example:**
-```bash
-/commit-push-pr
-/commit-push-pr "this is a breaking change"
-```
-
-### `/commit-push-draft [guidance]`
-
-Same as `/commit-push-pr` but creates a draft PR. If a PR already exists for the branch, updates it in place instead (leaving its draft/ready state alone).
-
-**Example:**
-```bash
-/commit-push-draft
-/commit-push-draft "WIP - needs more testing"
-```
-
-### `/bg <task>`
-
-Spin off a task to a background agent. The argument becomes the agent's prompt.
-
-**Example:**
-```bash
-/bg refactor the auth module to use the new middleware
-/bg investigate why the billing tests are flaky
-```
-
-### `/remember [instruction]`
-
-Append a convention, fact, or instruction to the project's shared `AGENTS.md` or `CLAUDE.md`. Also auto-activates when conventions or corrections come up in conversation.
-
-**Example:**
-```bash
-/remember always run make lint before committing
-/remember API handlers must return structured errors using pkg/apierror
-```
-
-### `/ready-for-review [PR number or URL]`
-
-Take a draft PR whose description has gone stale, rewrite the title and body from scratch against what the branch actually contains, and mark it ready for review. Stops if you have uncommitted or unpushed work, then continues into the review cycle with the task's existing permissions.
-
-**Example:**
-```bash
-/ready-for-review
-/ready-for-review 42
-```
-
-### `/review-cycle [PR number or URL] [guidance]`
-
-Drive the PR towards green CI and addressed review comments: triage, fix, test,
-commit, push, reply, and resolve. An independent review sub-agent is optional;
-the main agent keeps implementing either way. A rising stop-here score limits
-repeated rounds. Useful out-of-scope work gets a ticket or an agreed fast follow:
-merge this PR, then implement the requested changes in a separate PR.
-
-**Example:**
-```bash
-/review-cycle
-/review-cycle 42 without a sub-agent
-/review-cycle 42 and merge once we're green
-```
-
-### `/review-agent [PR number or URL]`
-
-Review and monitor a PR without editing, committing, or pushing. Reports
-findings to the session doing the implementation. Use `review-cycle` to own
-fixes and pushes through the review loop.
-
-### `/pr-feedback [PR number or URL]`
-
-Triage and act on PR review feedback. Fetches all comments, categorises each as implement/acknowledge/decline, plans changes, and implements approved fixes.
-
-**Example:**
-```bash
-/pr-feedback
-/pr-feedback 42
-```
-
-### `/pr-comments [PR number or URL]`
-
-Fetch all PR comments, reviews, and review threads via a single GraphQL call.
-
-**Example:**
-```bash
-/pr-comments
-/pr-comments https://github.com/org/repo/pull/42
-```
-
-### `/tourguide [commit range, branch, PR, or plan]`
-
-Walk through code changes or a plan in a logical, grouped sequence — one group at a time, pausing after each for questions or feedback. Instead of dumping a raw diff, organises related pieces together and presents them incrementally.
-
-**Example:**
-```bash
-/tourguide
-/tourguide feature/auth-refactor
-/tourguide 42
-```
-
-### `/quiz [PR, branch, commit range, --focus, or --deep]`
-
-Run a fast, adaptive check of your understanding of the current change. It
-asks one evidence-backed question at a time, focuses on load-bearing decisions
-in the diff, and keeps a private per-repository learning ledger so later
-sessions build on what you have already covered. It normally asks three to four
-questions; `--deep` allows up to five. Use `--focus` with `design`,
-`conventions`, or `behaviour` to concentrate on one aspect of the change.
-
-**Example:**
-```bash
-/quiz
-/quiz 42
-/quiz --focus behaviour
-/quiz --deep
-```
-
-### `/what [what was unclear]`
-
-Re-explain the previous message in plain English — reconnect it to the thread, define only what you introduced, bottom line first. Use it when a reply didn't land.
-
-**Example:**
-```bash
-/what
-/what "the bit about the migration"
-```
-
-### `/deslop [target]`
-
-Rewrite words for one-pass comprehension — code comments, user-facing copy, commit messages, PR titles and bodies, ticket titles and bodies. Plain English, short sentences, no filler or AI tells, no personification, no agent working memory in comments. Only the words change; logic, markup, and variables stay put.
-
-**Example:**
-```bash
-/deslop                       # comments and strings in the branch diff
-/deslop src/forms.py          # whole-file pass
-/deslop commit                # amend HEAD's message (if unpushed)
-/deslop 42                    # PR title and body
-/deslop ABC-123               # ticket title and description
-/deslop "Oops! Something went wrong. Please try again later!"
-```
-
-### `/slack [draft|send] [to <person or #channel>] [what to say]`
-
-Write a Slack message from what the session just did. By default the reply is the bare message, nothing else, so `/copy` grabs it and it pastes cleanly into Slack's composer. Say `draft` or `send` with a recipient to go through the Slack tool instead. The message is written in whichever Slack formatting dialect matches the delivery path; the rules, verified by round-tripping real messages, are in `skills/slack/references/slack-formatting.md`.
-
-**Example:**
-```bash
-/slack
-/slack draft to Pete: migration is done, needs a sign-off on the flag
-```
-
-### `/write [topic, draft file path, or guidance]`
-
-Write or improve a substantial document through a structured process: fix the goals, outline the key points, map the audience, design the structure, draft it, then run two independent review passes (a cold-read for clarity and a style pass for LLM-isms and British English).
-
-**Example:**
-```bash
-/write proposal to move billing onto the new pipeline
-/write docs/rfc-auth.md
-/write "make this readable for the leadership team"
+```text
+$commit-push-pr
+$tourguide feature/auth-refactor
+$write docs/rfc-auth.md
 ```
 
 ## Features
 
-- **Fast**: Minimal overhead, executes quickly
-- **Step verification**: Checks each operation before proceeding
-- **Pre-commit hook handling**: Automatically retries if hooks modify files
-- **Style matching**: Analyzes your repo's commit history to match existing style
-- **Clean messages**: Short, actionable commit and PR descriptions
+The commit and PR skills use your repository's commit style and check each operation. They handle
+pre-commit hooks that modify files. PR descriptions cover the whole branch, including
+related issues and verification results.
 
 ## Installation
 
-Install it from the repository's Claude Code or Codex marketplace. Other Agent
-Skills hosts can load the `skills/` directory directly.
+Follow the [marketplace installation instructions](../README.md#installation) for Claude
+Code or Codex. Other Agent Skills hosts can load `skills/` directly if they preserve the
+plugin's relative file layout.
 
 ## Requirements
 
-- Git
-- GitHub CLI (`gh`) for the PR skills
+Use Git for repository workflows and an authenticated GitHub CLI (`gh`) for PR
+workflows. Background tasks require a host that supports background agents. Slack drafts
+and sends require a connected Slack tool.
