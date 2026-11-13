@@ -60,7 +60,7 @@ See the [utils README](utils/README.md) for details and links to every skill:
 - `pr-comments` — fetch PR comments, reviews, and threads for the review skills
 - `/u:pr-feedback` — assess and address PR review feedback
 - `/u:pr-respond` — reply to and resolve PR review threads
-- `/u:review-cycle` — fix issues, test, push, and reply to reviewers until CI passes and feedback is addressed
+- `/u:review-cycle` — address PR feedback and CI failures, with limits on review rounds and waiting
 - `/u:review-agent` — review a PR without changing it and monitor CI failures and comments
 - `/u:remember` — save a convention in the project's shared AGENTS.md or CLAUDE.md
 - `/u:write` — help the agent write a clear document for its intended audience
@@ -127,7 +127,10 @@ on review rounds, merging, or minor fixes:
 ```
 
 `review-cycle` fixes issues, runs tests, pushes changes, and replies to reviewers.
-It can use an independent reviewer and limits repeated rounds of minor fixes.
+It can use an independent reviewer. It stops after at most 10 rounds.
+By default, it also stops after 10 minutes without new feedback or CI status
+changes. Checks or feedback may still be outstanding when it stops.
+
 Useful findings outside the PR's scope get follow-up tickets. An agreed
 follow-up change is made in a separate PR after the current one merges.
 Use `review-agent` to review and monitor a PR without changing it.

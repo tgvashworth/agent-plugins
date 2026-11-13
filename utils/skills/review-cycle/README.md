@@ -3,8 +3,10 @@
 Address PR feedback and CI failures. The agent assesses comments, fixes issues, runs
 tests, pushes changes, and replies to reviewers.
 
-Limits repeated review rounds. Independent review is optional; merging requires your
-authorisation.
+Stops after at most 10 rounds. By default, it also stops after 10 minutes without
+new feedback or CI status changes. Checks or feedback may still be outstanding.
+
+Independent review is optional; merging requires your authorisation.
 
 In Claude Code:
 

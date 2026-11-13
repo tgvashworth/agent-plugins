@@ -49,6 +49,9 @@ ready for review.
 Address PR feedback and CI failures. The agent assesses comments, fixes issues, runs
 tests, pushes changes, and replies to reviewers.
 
+It can stop with checks or feedback outstanding when its round or waiting limit is
+reached.
+
 ### [review-agent](skills/review-agent/README.md)
 
 Review a PR and monitor new comments and CI failures. Return findings to the session
